@@ -18,6 +18,7 @@ export default defineConfig({
             ]
         }
     },
+    theme: {},
     presets: [presetUno({ dark: 'class' })],
     transformers: [transformerDirectives(), transformerVariantGroup()],
     /** 自定义规则  */

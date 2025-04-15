@@ -1,6 +1,7 @@
 export const useUserStore = defineStore('userStore', () => {
     const accessToken = ref('')
     const refreshToken = ref('')
+    const isLogin = ref(false)
 
     const initState = () => {
         accessToken.value = localStorage.getItem('accessToken') || ''
@@ -14,10 +15,16 @@ export const useUserStore = defineStore('userStore', () => {
         sessionStorage.setItem('accessToken', newAccessToken)
     }
 
+    const setLoginStatus = (status: boolean) => {
+        isLogin.value = status
+    }
+
     return {
         accessToken,
         refreshToken,
+        isLogin,
         initState,
-        setToken
+        setToken,
+        setLoginStatus
     }
 })
