@@ -1,0 +1,32 @@
+.el-input--medium .el-input__inner {
+    height: 40px;
+    line-height: 40px;
+    border-radius: 10px;
+}
+
+.el-input {
+    height: 48px;
+
+    :deep(.el-input__wrapper) {
+        border-radius: 12px !important;
+        box-shadow: none;
+    }
+
+
+    .search-keydown {
+        display: flex;
+        align-items: center;
+        height: 20px;
+        padding: 0 4px;
+        border-radius: 4px;
+
+        i {
+            font-size: 12px;
+        }
+
+        span {
+            margin-left: 2px;
+            font-size: 12px;
+        }
+    }
+}

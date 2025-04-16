@@ -19,7 +19,11 @@
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
     "element-plus": "^2.8.0",
-    "@element-plus/icons-vue": "^2.3.1"
+    "@element-plus/icons-vue": "^2.3.1",
+    "@vue/reactivity": "^3.4.35",
+    "@vueuse/core": "^11.0.0",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "next"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.9",
