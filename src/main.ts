@@ -9,6 +9,8 @@ import App from './App.vue'
 import '@/assets/icons/system/iconfont.js' // 系统彩色图标
 import '@/assets/icons/system/iconfont.css' // 系统图标
 import '@/assets/styles/el-ui.scss'
+import '@/assets/styles/el-dark.scss'
+import '@/assets/styles/el-light.scss'
 
 const app = createApp(App)
 app.use(router).use(pinia).mount('#app')

@@ -105,8 +105,10 @@ import { useUserStore } from '@/store/user.js'
 import DragVerify from '@/components/DragVerify.vue'
 import './index.css'
 
-import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage, ElNotification, FormInstance, FormRules } from 'element-plus'
 import { HOME_PAGE } from '@/router'
+import { UserApi } from '@/api/userApi.ts'
+import { ApiStatus } from '@/utils/http/status.ts'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -143,13 +145,44 @@ const login = async () => {
                     setTimeout(resolve, ms)
                 })
             try {
-                userStore.setLoginStatus(true)
-                await router.push(HOME_PAGE)
+                const res = await UserApi.login({
+                    body: JSON.stringify({
+                        username: formData.username,
+                        password: formData.password
+                    })
+                })
+
+                if (res.code === ApiStatus.success && res.data) {
+                    // 登录成功
+                    userStore.setToken(res.data)
+                    userStore.setLoginStatus(true)
+                    // 延时辅助函数
+                    await delay(1000)
+                    // 登录成功提示
+                    showLoginSuccessNotice()
+                    // 跳转首页
+                    await router.push(HOME_PAGE)
+                } else {
+                    ElMessage.error(res.message)
+                }
             } finally {
                 await delay(1000)
                 loading.value = false
             }
         }
     })
+
+    const showLoginSuccessNotice = () => {
+        setTimeout(() => {
+            ElNotification({
+                title: '成功',
+                type: 'success',
+                showClose: false,
+                duration: 2500,
+                zIndex: 10000,
+                message: '欢迎!'
+            })
+        }, 300)
+    }
 }
 </script>
