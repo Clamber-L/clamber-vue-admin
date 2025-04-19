@@ -25,6 +25,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/register/index.vue')
     },
     {
+        path: RoutersAlias.ForgetPassword,
+        name: 'ForgetPassword',
+        component: () => import('@/views/forget_password/index.vue')
+    },
+    {
         path: '/exception',
         name: 'Exception',
         meta: { title: 'menus.exception.title' },

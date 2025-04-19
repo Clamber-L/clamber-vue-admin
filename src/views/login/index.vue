@@ -30,7 +30,12 @@
                 <div class="box-border h-full py-40px">
                     <h3 class="ml-(-3px) text-36px font-600 text-#071437">欢迎回来</h3>
                     <p class="mt-15px text-14px text-#99a1b7">输入您的账号和密码登录</p>
-                    <el-form class="mt-25px" ref="formRef" :model="formData" :rules="rules">
+                    <el-form
+                        class="mt-25px"
+                        ref="formRef"
+                        :model="formData"
+                        :rules="rules"
+                        @keyup.enter="login">
                         <el-form-item prop="username" class="mb-22px">
                             <el-input
                                 size="large"
@@ -48,25 +53,44 @@
                             <div
                                 class="relative z-2 box-border select-none rounded-8px transition-all transition-delay-300">
                                 <DragVerify
+                                    :class="{ 'border-#f56c6c': isClickPass && !isPassing }"
                                     ref="dragVerify"
                                     v-model:value="isPassing"
                                     :width="width < 500 ? 328 : 438"
                                     text-color="var(--art-gray-800)" />
                             </div>
-                            <p>error text</p>
+                            <p
+                                class="absolute top-0 z-1 mt-10px text-13px text-#f56c6c transition-all transition-delay-300"
+                                :class="{ 'translate-y-40px': isClickPass && !isPassing }">
+                                请拖动滑块完成验证
+                            </p>
                         </div>
 
-                        <div>
-                            <el-checkbox>记住密码</el-checkbox>
-                            <div>忘记密码</div>
+                        <div class="flex items-center justify-between text-14px text-#99a1b7">
+                            <el-checkbox v-model="formData.rememberPassword">记住密码</el-checkbox>
+                            <router-link class="decoration-none color-blue" to="/forget_password"
+                                >忘记密码</router-link
+                            >
                         </div>
 
-                        <div>
-                            <el-button> 登录 </el-button>
+                        <div class="mt-30px">
+                            <el-button
+                                class="w-full color-#fff rounded-2xl border-0"
+                                size="large"
+                                type="primary"
+                                :loading="loading"
+                                @click="login">
+                                登录
+                            </el-button>
                         </div>
 
-                        <div>
-                            <p>还没有账号？</p>
+                        <div class="mt-20px text-14px text-#252f4a">
+                            <p>
+                                还没有账号？
+                                <router-link class="decoration-none color-blue" to="/register"
+                                    >注册</router-link
+                                >
+                            </p>
                         </div>
                     </el-form>
                 </div>
@@ -77,12 +101,12 @@
 
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core'
-import { HOME_PAGE } from '@/router/index.js'
 import { useUserStore } from '@/store/user.js'
 import DragVerify from '@/components/DragVerify.vue'
 import './index.css'
 
 import type { FormInstance, FormRules } from 'element-plus'
+import { HOME_PAGE } from '@/router'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -97,10 +121,35 @@ const rules = computed<FormRules>(() => ({
     password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
 }))
 const isPassing = ref(false)
+const isClickPass = ref(false)
 const { width } = useWindowSize()
 
-const login = () => {
-    userStore.setLoginStatus(true)
-    router.push(HOME_PAGE)
+const loading = ref(false)
+
+const login = async () => {
+    if (!formRef.value) return
+
+    await formRef.value.validate(async (valid) => {
+        if (valid) {
+            if (!isPassing.value) {
+                isClickPass.value = true
+                return
+            }
+            loading.value = true
+
+            // 辅助延时函数
+            const delay = (ms: number) =>
+                new Promise((resolve) => {
+                    setTimeout(resolve, ms)
+                })
+            try {
+                userStore.setLoginStatus(true)
+                await router.push(HOME_PAGE)
+            } finally {
+                await delay(1000)
+                loading.value = false
+            }
+        }
+    })
 }
 </script>

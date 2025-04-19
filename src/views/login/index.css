@@ -1,11 +1,11 @@
 .el-input--medium .el-input__inner {
     height: 40px;
     line-height: 40px;
-    border-radius: 10px;
 }
 
 .el-input {
     height: 48px;
+    --el-input-border-radius: 10px; !important;
 
     :deep(.el-input__wrapper) {
         border-radius: 12px !important;
@@ -29,4 +29,8 @@
             font-size: 12px;
         }
     }
+}
+
+.el-button--large {
+    border-radius: 10px; !important;
 }

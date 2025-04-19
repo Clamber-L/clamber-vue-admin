@@ -8,6 +8,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import App from './App.vue'
 import '@/assets/icons/system/iconfont.js' // 系统彩色图标
 import '@/assets/icons/system/iconfont.css' // 系统图标
+import '@/assets/styles/el-ui.scss'
 
 const app = createApp(App)
 app.use(router).use(pinia).mount('#app')

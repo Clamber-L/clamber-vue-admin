@@ -55,7 +55,7 @@ const props = withDefaults(defineProps<PropsType>(), {
     width: 260,
     height: 44,
     text: '按住滑块拖动',
-    successText: 'success',
+    successText: '验证成功',
     background: '#eee',
     progressBarBg: '#1385FF',
     completedBg: '#57D187',
@@ -67,12 +67,12 @@ const props = withDefaults(defineProps<PropsType>(), {
     textSize: '13px',
     textColor: '#333'
 })
-interface stateType {
+interface StateType {
     isMoving: boolean
     x: number
     isOk: boolean
 }
-const state = reactive(<stateType>{
+const state = reactive(<StateType>{
     isMoving: false,
     x: 0,
     isOk: false
