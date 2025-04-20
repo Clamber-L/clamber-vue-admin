@@ -128,6 +128,19 @@ const { width } = useWindowSize()
 
 const loading = ref(false)
 
+const showLoginSuccessNotice = () => {
+    setTimeout(() => {
+        ElNotification({
+            title: '成功',
+            type: 'success',
+            showClose: false,
+            duration: 2500,
+            zIndex: 10000,
+            message: '欢迎!'
+        })
+    }, 300)
+}
+
 const login = async () => {
     if (!formRef.value) return
 
@@ -146,10 +159,8 @@ const login = async () => {
                 })
             try {
                 const res = await UserApi.login({
-                    body: JSON.stringify({
-                        username: formData.username,
-                        password: formData.password
-                    })
+                    username: formData.username,
+                    password: formData.password
                 })
 
                 if (res.code === ApiStatus.success && res.data) {
@@ -171,18 +182,5 @@ const login = async () => {
             }
         }
     })
-
-    const showLoginSuccessNotice = () => {
-        setTimeout(() => {
-            ElNotification({
-                title: '成功',
-                type: 'success',
-                showClose: false,
-                duration: 2500,
-                zIndex: 10000,
-                message: '欢迎!'
-            })
-        }, 300)
-    }
 }
 </script>

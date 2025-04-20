@@ -6,7 +6,7 @@ import EmojiText from '@/utils/emojo.ts'
 const axiosInstance = axios.create({
     timeout: 10000,
     baseURL: import.meta.env.VITE_API_URL,
-    withCredentials: true,
+    withCredentials: false,
     transformRequest: [(data) => JSON.stringify(data)],
     validateStatus: (status) => status >= 200 && status < 300,
     headers: {
@@ -51,6 +51,7 @@ axiosInstance.interceptors.response.use(
             console.log(`repeated request: ${error.message}`)
         } else {
             const errorMessage = error.message
+            console.log('error message:', errorMessage)
             ElMessage.error(
                 errorMessage
                     ? `${errorMessage} ${EmojiText[500]}`
