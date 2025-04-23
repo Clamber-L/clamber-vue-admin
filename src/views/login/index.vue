@@ -128,6 +128,13 @@ const { width } = useWindowSize()
 
 const loading = ref(false)
 
+onMounted(() => {
+    if (userStore.isLogin) {
+        console.log('is login')
+        router.push(HOME_PAGE)
+    }
+})
+
 const showLoginSuccessNotice = () => {
     setTimeout(() => {
         ElNotification({
