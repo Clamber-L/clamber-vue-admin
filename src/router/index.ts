@@ -9,10 +9,18 @@ export const HOME_PAGE = '/dashboard'
 const routes: Array<RouteRecordRaw> = [
     { path: '/', redirect: HOME_PAGE },
     {
-        path: RoutersAlias.Dashboard,
+        path: RoutersAlias.Index,
         name: 'Dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
-        meta: { title: 'menus.dashboard', keepAlive: false }
+        component: () => import('@/views/index/index.vue'),
+        meta: { title: 'menus.dashboard', keepAlive: false },
+        children: [
+            {
+                path: RoutersAlias.Dashboard,
+                name: 'Console',
+                component: () => import('@/views/dashboard/index.vue'),
+                meta: { title: 'menus.dashboard.console', keepAlive: false }
+            }
+        ]
     },
     {
         path: RoutersAlias.Login,
