@@ -1,10 +1,18 @@
-import { createRouter, createWebHistory, Router, RouteRecordRaw } from 'vue-router'
+import {
+    createRouter,
+    createWebHistory,
+    RouteLocationNormalized,
+    Router,
+    RouteRecordRaw
+} from 'vue-router'
 import { RoutersAlias } from '@/router/router_alias.ts'
 import { useUserStore } from '@/store/user.ts'
 import NProgress from 'nprogress'
 import { useSettingStore } from '@/store/settings.ts'
 import { asyncRoutes } from '@/router/asyncRoutes.ts'
 import { useMenuStore } from '@/store/menu.ts'
+import AppConfig from '@/config'
+import { setWorktab } from '@/utils/worktab.ts'
 
 /** 顶部进度条配置 */
 NProgress.configure({
@@ -100,6 +108,9 @@ router.beforeEach(async (to, _, next) => {
     }
 
     await getMenuData()
+    // 设置工作标签页和页面标题
+    setWorktab(to)
+    setPageTitle(to)
     return next()
 })
 
@@ -126,6 +137,19 @@ async function getMenuData(): Promise<void> {
     } catch (error) {
         console.error('获取菜单列表失败:', error)
         throw error
+    }
+}
+
+/**
+ * 设置页面标题，根据路由元信息和系统信息拼接标题
+ * @param to 当前路由对象
+ */
+export const setPageTitle = (to: RouteLocationNormalized): void => {
+    const { title } = to.meta
+    if (title) {
+        setTimeout(() => {
+            document.title = `${String(title)} - ${AppConfig.systemInfo.name}`
+        }, 150)
     }
 }
 

@@ -5,15 +5,12 @@
         <div
             class="menu-left"
             id="menu-left"
-            :class="`menu-left-light menu-left-${!menuOpen ? 'close' : 'open'}`"
-            :style="{ background: getMenuTheme.background }">
+            :class="`menu-left-light menu-left-${!menuOpen ? 'close' : 'open'}`">
             <div class="header" @click="toHome" :style="{ background: getMenuTheme.background }">
-                <svg class="svg-icon font-bold text-black" aria-hidden="true" v-if="!isDualMenu">
+                <svg class="svg-icon font-bold text-black" aria-hidden="true">
                     <use xlink:href="#iconsys-zhaopian-copy"></use>
                 </svg>
-                <p
-                    :class="{ 'is-dual-menu-name': isDualMenu }"
-                    :style="{ color: getMenuTheme.systemNameColor, opacity: !menuOpen ? 0 : 1 }">
+                <p :style="{ color: getMenuTheme.systemNameColor, opacity: !menuOpen ? 0 : 1 }">
                     {{ AppConfig.systemInfo.name }}
                 </p>
             </div>
@@ -27,11 +24,7 @@
                 :active-text-color="getMenuTheme.textActiveColor"
                 :default-openeds="defaultOpenedsArray"
                 :popper-class="`menu-left-${getMenuTheme.theme}-popper`">
-                <submenu
-                    :list="menuList"
-                    :isMobile="isMobileModel"
-                    :theme="getMenuTheme"
-                    @close="closeMenu" />
+                <submenu :list="menuList" :theme="getMenuTheme" @close="closeMenu" />
             </el-menu>
 
             <div
@@ -39,7 +32,7 @@
                 @click="visibleMenu"
                 :style="{
                     opacity: !menuOpen ? 0 : 1,
-                    transform: showMobileModel ? 'scale(1)' : 'scale(0)'
+                    transform: 'scale(0)'
                 }"></div>
         </div>
     </div>
@@ -48,7 +41,7 @@
 <script setup lang="ts">
 import { HOME_PAGE } from '@/router'
 import AppConfig from '@/config'
-import { MenuTypeEnum, MenuWidth } from '@/enums/appEnum'
+import { MenuWidth } from '@/enums/appEnum'
 import { useSettingStore } from '@/store/settings.ts'
 import { useMenuStore } from '@/store/menu.ts'
 import Submenu from '../Layout/Submenu/submenu.vue'
@@ -57,11 +50,9 @@ const route = useRoute()
 const router = useRouter()
 const settingStore = useSettingStore()
 
-const { getMenuOpenWidth, menuType, uniqueOpened, menuOpen, getMenuTheme } =
-    storeToRefs(settingStore)
+const { getMenuOpenWidth, uniqueOpened, menuOpen, getMenuTheme } = storeToRefs(settingStore)
 
 const menuCloseWidth = MenuWidth.CLOSE
-const isDualMenu = computed(() => menuType.value === MenuTypeEnum.DUAL_MENU)
 
 const defaultOpenedsArray = ref([])
 
@@ -76,18 +67,6 @@ const routerPath = computed(() => {
 onMounted(() => {
     listenerWindowResize()
 })
-
-const isMobileModel = ref(false)
-const showMobileModel = ref(false)
-
-watch(
-    () => !menuOpen.value,
-    (collapse: boolean) => {
-        if (!collapse) {
-            showMobileModel.value = true
-        }
-    }
-)
 
 const toHome = () => {
     router.push(HOME_PAGE)
@@ -117,21 +96,11 @@ const setMenuModel = () => {
 
 const visibleMenu = () => {
     settingStore.setMenuOpen(!menuOpen.value)
-
-    // 移动端模态框
-    if (!showMobileModel.value) {
-        showMobileModel.value = true
-    } else {
-        setTimeout(() => {
-            showMobileModel.value = false
-        }, 200)
-    }
 }
 
 const closeMenu = () => {
     if (document.body.clientWidth < 800) {
         settingStore.setMenuOpen(false)
-        showMobileModel.value = false
     }
 }
 </script>

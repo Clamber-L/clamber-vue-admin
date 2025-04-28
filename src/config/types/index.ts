@@ -8,14 +8,12 @@ export interface ThemeSetting {
   color: string[]
   leftLineColor: string
   rightLineColor: string
-  img: string
 }
 
 // 菜单布局
 export interface MenuLayout {
   name: string
   value: MenuTypeEnum
-  img: string
 }
 
 // 系统配置

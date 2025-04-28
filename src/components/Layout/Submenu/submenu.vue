@@ -4,15 +4,10 @@
         <el-sub-menu v-if="hasChildren(item)" :index="item.path || item.meta.title" :level="level">
             <template #title>
                 <MenuItemIcon :icon="item.meta.icon" :color="theme?.iconColor" />
-                <span class="menu-name">{{ formatMenuTitle(item.meta.title) }}</span>
+                <span class="menu-name">{{ item.meta.title }}</span>
                 <div v-if="item.meta.showBadge" class="badge" style="right: 35px" />
             </template>
-            <submenu
-                :list="item.children"
-                :is-mobile="isMobile"
-                :level="level + 1"
-                :theme="theme"
-                @close="closeMenu" />
+            <submenu :list="item.children" :level="level + 1" :theme="theme" @close="closeMenu" />
         </el-sub-menu>
 
         <!-- 普通菜单项 -->
@@ -23,7 +18,7 @@
             @click="goPage(item)">
             <MenuItemIcon :icon="item.meta.icon" :color="theme?.iconColor" />
             <template #title>
-                <span class="menu-name">{{ formatMenuTitle(item.meta.title) }}</span>
+                <span class="menu-name">{{ item.meta.title }}</span>
                 <div v-if="item.meta.showBadge" class="badge" />
                 <div v-if="item.meta.showTextBadge" class="text-badge">
                     {{ item.meta.showTextBadge }}
@@ -35,7 +30,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { formatMenuTitle } from '@/utils/menu'
 import { handleMenuJump } from '@/utils/jump'
 import { MenuListType } from '@/typings/modules/meun'
 
@@ -46,7 +40,6 @@ interface Props {
     theme?: {
         iconColor?: string
     }
-    isMobile?: boolean
     level?: number
 }
 
@@ -55,7 +48,6 @@ const props = withDefaults(defineProps<Props>(), {
     title: '',
     list: () => [],
     theme: () => ({}),
-    isMobile: false,
     level: 0
 })
 
@@ -69,6 +61,7 @@ const filteredMenuItems = computed(() => filterRoutes(props.list))
 
 // 跳转页面
 const goPage = (item: MenuListType) => {
+    console.log('go page item:', item)
     closeMenu()
     handleMenuJump(item)
 }

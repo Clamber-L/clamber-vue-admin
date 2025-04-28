@@ -1,6 +1,6 @@
-import { MenuListType } from '@/typings/modules/menu'
-
 // 创建递归函数处理嵌套路由
+import { MenuListType } from '@/typings/modules/meun'
+
 /**
  * 处理路由配置,转换为菜单数据结构
  * @param route 路由配置对象
@@ -43,13 +43,4 @@ export const saveIframeRoutes = (list: MenuListType[]): void => {
 // 获取 iframe 路由
 export const getIframeRoutes = () => {
     return JSON.parse(sessionStorage.getItem('iframeRoutes') || '[]')
-}
-
-/**
- * 格式化菜单标题
- * @param title 菜单标题，可以是 i18n 的 key，也可以是字符串，比如：'用户列表'
- * @returns 格式化后的菜单标题
- */
-export const formatMenuTitle = (title: string) => {
-    return title.startsWith('menus.')
 }

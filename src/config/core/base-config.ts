@@ -1,12 +1,11 @@
 import { MenuThemeEnum, MenuTypeEnum, SystemThemeEnum } from '@/enums/appEnum'
-import { configImages } from '../assets/images'
 import { SystemConfig } from '../types'
 
 // 创建基础配置
 export const createBaseConfig = (): SystemConfig => ({
   // 系统信息
   systemInfo: {
-    name: 'Art Design Pro',
+    name: 'Clamber Design Pro',
     login: {
       username: 'admin',
       password: '123456'
@@ -29,7 +28,6 @@ export const createBaseConfig = (): SystemConfig => ({
       color: ['#fff', '#fff'],
       leftLineColor: '#EDEEF0',
       rightLineColor: '#EDEEF0',
-      img: configImages.themeStyles.light
     },
     {
       name: 'Dark',
@@ -37,7 +35,6 @@ export const createBaseConfig = (): SystemConfig => ({
       color: ['#22252A'],
       leftLineColor: '#3F4257',
       rightLineColor: '#3F4257',
-      img: configImages.themeStyles.dark
     },
     {
       name: 'System',
@@ -45,15 +42,14 @@ export const createBaseConfig = (): SystemConfig => ({
       color: ['#fff', '#22252A'],
       leftLineColor: '#EDEEF0',
       rightLineColor: '#3F4257',
-      img: configImages.themeStyles.system
     }
   ],
   // 菜单布局列表
   menuLayoutList: [
-    { name: 'Left', value: MenuTypeEnum.LEFT, img: configImages.menuLayouts.vertical },
-    { name: 'Top', value: MenuTypeEnum.TOP, img: configImages.menuLayouts.horizontal },
-    { name: 'Mixed', value: MenuTypeEnum.TOP_LEFT, img: configImages.menuLayouts.mixed },
-    { name: 'Dual Column', value: MenuTypeEnum.DUAL_MENU, img: configImages.menuLayouts.dualColumn }
+    { name: 'Left', value: MenuTypeEnum.LEFT,  },
+    { name: 'Top', value: MenuTypeEnum.TOP,  },
+    { name: 'Mixed', value: MenuTypeEnum.TOP_LEFT,  },
+    { name: 'Dual Column', value: MenuTypeEnum.DUAL_MENU,  }
   ],
   // 菜单主题列表
   themeList: [
@@ -69,7 +65,6 @@ export const createBaseConfig = (): SystemConfig => ({
       systemBackground: '#FAFBFC',
       leftLineColor: '#EDEEF0',
       rightLineColor: '#EDEEF0',
-      img: configImages.menuStyles.design
     },
     {
       theme: MenuThemeEnum.DARK,
@@ -83,7 +78,6 @@ export const createBaseConfig = (): SystemConfig => ({
       systemBackground: '#F8F8F8',
       leftLineColor: '#3F4257',
       rightLineColor: '#EDEEF0',
-      img: configImages.menuStyles.dark
     },
     {
       theme: MenuThemeEnum.LIGHT,
@@ -97,7 +91,6 @@ export const createBaseConfig = (): SystemConfig => ({
       systemBackground: '#F8F8F8',
       leftLineColor: '#EDEEF0',
       rightLineColor: '#EDEEF0',
-      img: configImages.menuStyles.light
     }
   ],
 

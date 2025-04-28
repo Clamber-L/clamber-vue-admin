@@ -15,24 +15,24 @@ export const asyncRoutes: MenuListType[] = [
     {
         id: '1',
         name: 'Index',
-        path: RoutersAlias.Index,
-        component: RoutersAlias.Index,
+        path: RoutersAlias.Dashboard,
+        component: RoutersAlias.Dashboard,
         meta: {
-            title: 'menus.dashboard.title',
+            title: '首页',
             icon: '&#xe721;',
             keepAlive: false
-        },
-        children: [
-            {
-                id: '101',
-                path: '/dashboard',
-                name: 'Dashboard',
-                component: RoutersAlias.Dashboard,
-                meta: {
-                    title: 'menus.dashboard.console',
-                    keepAlive: true
-                }
-            }
-        ]
+        }
+        // children: [
+        //     {
+        //         id: '101',
+        //         path: '/dashboard',
+        //         name: 'Dashboard',
+        //         component: RoutersAlias.Dashboard,
+        //         meta: {
+        //             title: '仪表盘',
+        //             keepAlive: true
+        //         }
+        //     }
+        // ]
     }
 ]

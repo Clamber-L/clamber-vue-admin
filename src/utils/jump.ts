@@ -13,7 +13,7 @@ export const openExternalLink = (link: string) => {
  * @returns
  */
 
-export const handleMenuJump = (item: MenuListType, jumpToFirst: boolean = false) => {
+export const handleMenuJump = async (item: MenuListType, jumpToFirst: boolean = false) => {
     // 处理外部链接
     const { link, isIframe } = item.meta
     if (link && !isIframe) {
@@ -34,7 +34,7 @@ export const handleMenuJump = (item: MenuListType, jumpToFirst: boolean = false)
     }
 
     // 跳转到子菜单路径
-    router.push(firstChild.path)
+    await router.push(firstChild.path)
 }
 
 // ... existing code ...
