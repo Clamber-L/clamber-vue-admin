@@ -1,11 +1,10 @@
-import { MenuThemeEnum, MenuTypeEnum, SystemThemeEnum } from '@/enums/appEnum.ts'
+import { MenuThemeEnum, SystemThemeEnum } from '@/enums/appEnum.ts'
 import AppConfig from '@/config'
-import { MenuThemeType, UserInfo } from '@/typings/modules/store'
+import { MenuThemeType } from '@/typings/modules/store'
 
 const { defaultMenuWidth, defaultCustomRadius, defaultTabStyle } = AppConfig.systemSetting
 
 export const useSettingStore = defineStore('settingStore', () => {
-    const menuType = ref(MenuTypeEnum.LEFT)
     const showMenuButton = ref(true)
     const showCrumbs = ref(true)
     const menuOpenWidth = ref(defaultMenuWidth)
@@ -19,9 +18,6 @@ export const useSettingStore = defineStore('settingStore', () => {
     const showProgress = ref(true) // 显示顶部进度条
     const menuOpen = ref(true) // 侧边栏状态
     const pageTransition = ref('slide-right')
-
-    const info = ref<Partial<UserInfo>>({})
-    const getUserInfo = computed(() => info.value)
 
     const setProgress = () => {
         showProgress.value = !showProgress.value
@@ -56,7 +52,6 @@ export const useSettingStore = defineStore('settingStore', () => {
     })
 
     return {
-        menuType,
         showMenuButton,
         showCrumbs,
         showProgress,
@@ -72,7 +67,6 @@ export const useSettingStore = defineStore('settingStore', () => {
         pageTransition,
         setPageTransition,
         showWorkTab,
-        setWorkTab,
-        getUserInfo
+        setWorkTab
     }
 })

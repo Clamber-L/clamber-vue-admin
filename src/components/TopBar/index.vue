@@ -2,56 +2,21 @@
     <div class="top-bar" :class="[tabStyle]" :style="{ width: topBarWidth() }">
         <div class="menu">
             <div class="left" style="display: flex">
-                <!-- 系统信息  -->
-                <div class="top-header" @click="toHome" v-if="isTopMenu">
-                    <svg class="svg-icon2" aria-hidden="true">
-                        <use xlink:href="#iconsys-zhaopian-copy"></use>
-                    </svg>
-                    <p v-if="width >= 1400">{{ AppConfig.systemInfo.name }}</p>
-                </div>
-
-                <svg class="svg-icon" aria-hidden="true" @click="toHome()">
-                    <use xlink:href="#iconsys-zhaopian-copy"></use>
-                </svg>
-
                 <!-- 菜单按钮 -->
-                <div class="btn-box" v-if="isLeftMenu && showMenuButton">
+                <div class="btn-box" v-if="showMenuButton">
                     <div class="btn menu-btn">
                         <i class="iconfont-sys" @click="visibleMenu">&#xe6ba;</i>
                     </div>
                 </div>
-                <!-- 快速入口 -->
-                <fast-enter v-if="width >= 1200" />
                 <!-- 面包屑 -->
                 <breadcrumb
-                    v-if="(showCrumbs && isLeftMenu) || (showCrumbs && isDualMenu)"
+                    v-if="showCrumbs"
                     :style="{
                         paddingLeft: !showMenuButton ? '10px' : '0'
                     }" />
-
-                <!-- 顶部菜单 -->
-                <MenuTop v-if="isTopMenu" :list="menuList" :width="menuTopWidth" />
-
-                <!-- 混合菜单-顶部 -->
-                <MixedMenu v-if="isTopLeftMenu" :list="menuList" :width="menuTopWidth" />
             </div>
 
             <div class="right">
-                <!-- 搜索 -->
-                <div class="search-wrap">
-                    <div class="search-input" @click="openSearchDialog">
-                        <div class="left">
-                            <i class="iconfont-sys">&#xe710;</i>
-                            <span>搜索</span>
-                        </div>
-                        <div class="search-keydown">
-                            <i class="iconfont-sys" v-if="isWindows">&#xeeac;</i>
-                            <i class="iconfont-sys" v-else>&#xe9ab;</i>
-                            <span>k</span>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- 全屏按钮 -->
                 <div class="btn-box screen-box" @click="toggleFullScreen">
                     <div
@@ -139,18 +104,14 @@
 </template>
 
 <script setup lang="ts">
-import { MenuTypeEnum, MenuWidth } from '@/enums/appEnum'
-import { useFullscreen, useWindowSize } from '@vueuse/core'
-import { HOME_PAGE } from '@/router'
-import AppConfig from '@/config'
+import { MenuWidth } from '@/enums/appEnum'
+import { useFullscreen } from '@vueuse/core'
 import { WEB_LINKS } from '@/utils/links'
 import { useSettingStore } from '@/store/settings.ts'
 import { useUserStore } from '@/store/user.ts'
-import { useMenuStore } from '@/store/menu.ts'
 import mittBus from '@/utils/mittBus.ts'
 import Breadcrumb from '../Breadcrumb/index.vue'
 import Notice from '../Notice/index.vue'
-import MixedMenu from '../MixedMenu/index.vue'
 
 const isWindows = navigator.userAgent.includes('Windows')
 
@@ -158,26 +119,13 @@ const settingStore = useSettingStore()
 const userStore = useUserStore()
 const router = useRouter()
 
-const { showMenuButton, menuOpen, showCrumbs, menuType, tabStyle } = storeToRefs(settingStore)
+const { showMenuButton, menuOpen, showCrumbs, tabStyle } = storeToRefs(settingStore)
 
 const { getUserInfo: userInfo } = storeToRefs(userStore)
-
-const { menuList } = storeToRefs(useMenuStore())
 
 const showNotice = ref(false)
 const notice = ref(null)
 const userMenuPopover = ref()
-
-const isLeftMenu = computed(() => menuType.value === MenuTypeEnum.LEFT)
-const isDualMenu = computed(() => menuType.value === MenuTypeEnum.DUAL_MENU)
-const isTopMenu = computed(() => menuType.value === MenuTypeEnum.TOP)
-const isTopLeftMenu = computed(() => menuType.value === MenuTypeEnum.TOP_LEFT)
-
-const { width } = useWindowSize()
-
-const menuTopWidth = computed(() => {
-    return width.value * 0.5
-})
 
 onMounted(() => {
     document.addEventListener('click', bodyCloseNotice)
@@ -194,19 +142,8 @@ const toggleFullScreen = () => {
 }
 
 const topBarWidth = (): string => {
-    const { TOP, DUAL_MENU } = MenuTypeEnum
     const { getMenuOpenWidth } = settingStore
-
-    switch (menuType.value) {
-        case TOP:
-            return '100%'
-        case DUAL_MENU:
-            return `calc(100% - 80px - ${getMenuOpenWidth})`
-        default:
-            return menuOpen.value
-                ? `calc(100% - ${getMenuOpenWidth})`
-                : `calc(100% - ${MenuWidth.CLOSE})`
-    }
+    return menuOpen.value ? `calc(100% - ${getMenuOpenWidth})` : `calc(100% - ${MenuWidth.CLOSE})`
 }
 
 const visibleMenu = () => {
@@ -223,10 +160,6 @@ const toDocs = () => {
 
 const toGithub = () => {
     window.open(WEB_LINKS.GITHUB)
-}
-
-const toHome = () => {
-    router.push(HOME_PAGE)
 }
 
 const loginOut = () => {
@@ -298,5 +231,4 @@ const closeUserMenu = () => {
 
 <style lang="scss" scoped>
 @use './style';
-@use './mobile';
 </style>

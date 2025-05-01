@@ -31,10 +31,11 @@ const breadList = ref<BreadcrumbItem[]>([])
 
 // 计算函数
 const isLastItem = (index: number) => index === breadList.value.length - 1
-const isHome = (route: RouteLocationMatched) => route.name === '/'
+const isHome = (r: RouteLocationMatched) => r.name === '/'
 
 // 获取面包屑数据
 const getBreadcrumb = () => {
+    console.log('route', route)
     const { matched } = route
     if (isHome(matched[0])) {
         breadList.value = []
@@ -64,7 +65,7 @@ const handleClick = async (item: BreadcrumbItem) => {
         return
     }
 
-    const currentRoute = router.getRoutes().find((route) => route.path === path)
+    const currentRoute = router.getRoutes().find((r) => r.path === path)
 
     if (!currentRoute?.children?.length) {
         await router.push(path)

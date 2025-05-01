@@ -1,4 +1,4 @@
-import { MenuThemeEnum, MenuTypeEnum, SystemThemeEnum } from '@/enums/appEnum'
+import { MenuThemeEnum, SystemThemeEnum } from '@/enums/appEnum'
 import { SystemConfig } from '../types'
 
 // 创建基础配置
@@ -44,13 +44,7 @@ export const createBaseConfig = (): SystemConfig => ({
       rightLineColor: '#3F4257',
     }
   ],
-  // 菜单布局列表
-  menuLayoutList: [
-    { name: 'Left', value: MenuTypeEnum.LEFT,  },
-    { name: 'Top', value: MenuTypeEnum.TOP,  },
-    { name: 'Mixed', value: MenuTypeEnum.TOP_LEFT,  },
-    { name: 'Dual Column', value: MenuTypeEnum.DUAL_MENU,  }
-  ],
+
   // 菜单主题列表
   themeList: [
     {

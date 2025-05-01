@@ -38,13 +38,13 @@ const routes: Array<RouteRecordRaw> = [
         path: RoutersAlias.Index,
         name: 'Dashboard',
         component: () => import('@/views/index/index.vue'),
-        meta: { title: 'menus.dashboard', keepAlive: false },
+        meta: { title: '仪表盘', keepAlive: false },
         children: [
             {
                 path: RoutersAlias.Dashboard,
                 name: 'Console',
                 component: () => import('@/views/dashboard/index.vue'),
-                meta: { title: 'menus.dashboard.console', keepAlive: false }
+                meta: { title: '工作台', keepAlive: false }
             }
         ]
     },
@@ -52,20 +52,20 @@ const routes: Array<RouteRecordRaw> = [
         path: RoutersAlias.Login,
         name: 'Login',
         component: () => import('@/views/login/index.vue'),
-        meta: { title: 'menus.login.title', isHideTab: true, setTheme: true }
+        meta: { title: '登录', isHideTab: true, setTheme: true }
     },
     {
         path: RoutersAlias.Register,
         name: 'Register',
         component: () => import('@/views/register/index.vue'),
-        meta: { title: 'menus.register.title', isHideTab: true, noLogin: true, setTheme: true }
+        meta: { title: '注册', isHideTab: true, noLogin: true, setTheme: true }
     },
     {
         path: RoutersAlias.ForgetPassword,
         name: 'ForgetPassword',
         component: () => import('@/views/forget_password/index.vue'),
         meta: {
-            title: 'menus.forgetPassword.title',
+            title: '忘记密码',
             isHideTab: true,
             noLogin: true,
             setTheme: true

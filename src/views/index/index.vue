@@ -1,5 +1,5 @@
 <template>
-    <div class="frame">
+    <div class="frame" :style="{ paddingLeft, paddingTop }">
         <!-- 左侧菜单 -->
         <menu-left></menu-left>
         <!-- 顶栏 -->
@@ -7,7 +7,7 @@
             <work-tab v-if="showWorkTab"></work-tab>
         </top-bar>
         <!-- 内容区域 -->
-        <router-view v-slot="{ Component, route }" class="container max-w-full">
+        <router-view v-slot="{ Component, route }" class="container">
             <transition appear :name="pageTransition">
                 <keep-alive :max="10" :exclude="keepAliveExclude">
                     <component :is="Component" :key="route.path" v-if="route.meta.keepAlive" />
@@ -24,9 +24,28 @@ import { useSettingStore } from '@/store/settings.ts'
 import { useWorktabStore } from '@/store/worktab.ts'
 import TopBar from '@/components/TopBar/index.vue'
 import WorkTab from '@/components/WorkTab/index.vue'
+import { useMenuStore } from '@/store/menu.ts'
+import { MenuWidth } from '@/enums/appEnum.ts'
+import { getTabConfig } from '@/utils/tabs.ts'
 
-const { pageTransition, showWorkTab } = storeToRefs(useSettingStore())
+const settingStore = useSettingStore()
+const menuStore = useMenuStore()
+const { pageTransition, showWorkTab, menuOpen } = storeToRefs(settingStore)
 const { keepAliveExclude } = storeToRefs(useWorktabStore())
+
+// 根据菜单是否打开来设置左侧填充宽度
+const paddingLeft = computed(() => {
+    const width = menuOpen.value ? settingStore.getMenuOpenWidth : MenuWidth.CLOSE
+    menuStore.setMenuWidth(width) // 更新菜单宽度
+
+    return width
+})
+
+// 计算顶部填充高度
+const paddingTop = computed(() => {
+    const { openTop, closeTop } = getTabConfig('tab-default')
+    return `${showWorkTab.value ? openTop : closeTop}px`
+})
 </script>
 <style lang="scss">
 .frame {

@@ -15,7 +15,7 @@
                     @click="clickTab(item)"
                     @contextmenu.prevent="(e: MouseEvent) => showMenu(e, item.path)">
                     {{ item.title }}
-                    <el-icon v-if="index !== 0" @click.stop="closeWorktab('current', item.path)">
+                    <el-icon v-if="index !== 0" @click.stop="closeWorkTab('current', item.path)">
                         <Close />
                     </el-icon>
                     <div class="line"></div>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="right">
-            <el-dropdown @command="closeWorktab">
+            <el-dropdown @command="closeWorkTab">
                 <el-icon class="btn console-box art-custom-card">
                     <ArrowDown />
                 </el-icon>
@@ -67,7 +67,7 @@
 <script setup lang="ts">
 // 导入必要的组件和工具
 import { computed, onMounted, ref, watch } from 'vue'
-import { LocationQueryRaw, useRoute, useRouter } from 'vue-router'
+import { LocationQueryRaw, useRouter } from 'vue-router'
 import { ArrowDown, ArrowLeft, ArrowRight, Close, CircleClose } from '@element-plus/icons-vue'
 
 import { useWorktabStore } from '@/store/worktab.ts'
@@ -75,7 +75,6 @@ import { useSettingStore } from '@/store/settings.ts'
 import { WorkTabType } from '@/typings/modules/store'
 
 const store = useWorktabStore()
-const route = useRoute()
 const router = useRouter()
 const { currentRoute } = router
 const settingStore = useSettingStore()
@@ -203,8 +202,8 @@ const clickTab = (item: WorkTabType) => {
 }
 
 // 关闭标签页的不同方式
-const closeWorktab = (type: string, tabPath: string) => {
-    const path = typeof tabPath === 'string' ? tabPath : route.path
+const closeWorkTab = (type: string, tabPath: string) => {
+    const path = tabPath
 
     switch (type) {
         case 'current':
@@ -255,6 +254,15 @@ const showMenu = (e: MouseEvent, path?: string) => {
     e.stopPropagation()
 }
 
+export interface MenuItemType {
+    key: string
+    label: string
+    icon?: string
+    disabled?: boolean
+    children?: MenuItemType[]
+    [key: string]: any
+}
+
 const handleSelect = (item: MenuItemType) => {
     const { key } = item
     const activeIndex = list.value.findIndex((tab) => tab.path === activeTab.value)
@@ -271,7 +279,7 @@ const handleSelect = (item: MenuItemType) => {
     }
 
     // 关闭标签页
-    closeWorktab(key, clickedPath.value)
+    closeWorkTab(key, clickedPath.value)
 }
 
 // 滚动事件处理

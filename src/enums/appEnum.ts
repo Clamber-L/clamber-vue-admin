@@ -1,13 +1,3 @@
-// 系统级别枚举
-
-// 菜单类型
-export enum MenuTypeEnum {
-    LEFT = 'left',
-    TOP = 'top',
-    TOP_LEFT = 'top-left',
-    DUAL_MENU = 'dual-menu'
-}
-
 // App theme enum
 export enum SystemThemeEnum {
     DARK = 'dark',
