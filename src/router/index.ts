@@ -12,7 +12,9 @@ import { useSettingStore } from '@/store/settings.ts'
 import { asyncRoutes } from '@/router/asyncRoutes.ts'
 import { useMenuStore } from '@/store/menu.ts'
 import AppConfig from '@/config'
-import { setWorktab } from '@/utils/worktab.ts'
+import { setWorkTab } from '@/utils/worktab.ts'
+import { processRoute } from '@/utils/menu.ts'
+import { MenuListType } from '@/typings/modules/meun'
 
 /** 顶部进度条配置 */
 NProgress.configure({
@@ -32,7 +34,7 @@ const { BASE_URL } = import.meta.env
 
 export const HOME_PAGE = '/dashboard'
 
-const routes: Array<RouteRecordRaw> = [
+const routes: Array<AppRouteRecordRaw> = [
     { path: '/', redirect: HOME_PAGE },
     {
         path: RoutersAlias.Index,
@@ -109,7 +111,7 @@ router.beforeEach(async (to, _, next) => {
 
     await getMenuData()
     // 设置工作标签页和页面标题
-    setWorktab(to)
+    setWorkTab(to)
     setPageTitle(to)
     return next()
 })
@@ -119,6 +121,8 @@ async function getMenuData(): Promise<void> {
         // 获取菜单列表
         const menuList = asyncRoutes
 
+        const processedMenuList: MenuListType[] = menuList.map((route) => processRoute(route))
+
         // 如果菜单列表为空，执行登出操作并跳转到登录页
         if (!Array.isArray(menuList) || menuList.length === 0) {
             // closeLoading()
@@ -127,9 +131,9 @@ async function getMenuData(): Promise<void> {
         }
 
         // 设置菜单列表
-        useMenuStore().setMenuList(menuList as [])
+        useMenuStore().setMenuList(processedMenuList as [])
         // 注册异步路由
-        // registerAsyncRoutes(router, menuList)
+        registerAsyncRoutes(router, menuList)
         // 标记路由已注册
         // isRouteRegistered.value = true
         // 关闭加载动画
@@ -151,6 +155,107 @@ export const setPageTitle = (to: RouteLocationNormalized): void => {
             document.title = `${String(title)} - ${AppConfig.systemInfo.name}`
         }, 150)
     }
+}
+
+/**
+ * 动态导入 views 目录下所有 .vue 组件
+ */
+const modules: Record<string, () => Promise<any>> = import.meta.glob('../views/**/*.vue')
+
+/**
+ * 注册异步路由
+ * 将接口返回的菜单列表转换为 Vue Router 路由配置，并添加到传入的 router 实例中
+ * @param r Vue Router 实例
+ * @param menuList 接口返回的菜单列表
+ */
+function registerAsyncRoutes(r: Router, menuList: MenuListType[]): void {
+    // 遍历菜单列表，注册路由
+    menuList.forEach((route) => {
+        if (route.name && !r.hasRoute(route.name)) {
+            const routeConfig = convertRouteComponent(route)
+            r.addRoute(routeConfig as RouteRecordRaw)
+        }
+    })
+}
+
+interface ConvertedRoute extends Omit<RouteRecordRaw, 'children'> {
+    id?: string
+    children?: ConvertedRoute[]
+    component?: RouteRecordRaw['component'] | (() => Promise<any>)
+}
+
+function convertRouteComponent(route: MenuListType): ConvertedRoute {
+    const { component, children, ...routeConfig } = route
+
+    // 基础路由配置
+    const converted: ConvertedRoute = {
+        ...routeConfig,
+        component: undefined
+    }
+
+    try {
+        if (route.meta.isInMainContainer) {
+            handleLayoutRoute(converted, route, component)
+        } else {
+            // 处理普通路由组件
+            handleNormalRoute(converted, component, route.name)
+        }
+
+        // 递归处理子路由
+        if (children?.length) {
+            converted.children = children.map((child) => convertRouteComponent(child))
+        }
+        return converted
+    } catch (error) {
+        console.error(`路由转换失败: ${route.name}`, error)
+        throw error
+    }
+}
+
+// 处理一级级菜单路由
+function handleLayoutRoute(
+    converted: ConvertedRoute,
+    route: MenuListType,
+    component: string | undefined
+): void {
+    converted.component = () => import('@/views/index/index.vue')
+    converted.path = `/${(route.path?.split('/')[1] || '').trim()}`
+    converted.name = ''
+
+    converted.children = [
+        {
+            id: route.id,
+            path: route.path,
+            name: route.name,
+            component: loadComponent(component as string, route.name),
+            meta: route.meta
+        }
+    ]
+}
+
+// 处理普通路由
+function handleNormalRoute(converted: any, component: string | undefined, routeName: string): void {
+    if (component) {
+        converted.component = component
+            ? RoutersAlias[component as keyof typeof RoutersAlias] ||
+              loadComponent(component as string, routeName)
+            : undefined
+    }
+}
+
+/**
+ * 根据组件路径动态加载组件
+ * @param componentPath 组件路径（不包含 ../../views 前缀和 .vue 后缀）
+ * @param routeName 当前路由名称（用于错误提示）
+ * @returns 组件加载函数
+ */
+function loadComponent(componentPath: string, routeName: string): () => Promise<any> {
+    const fullPath = `../views${componentPath}/index.vue`
+    const module = modules[fullPath]
+    if (!module && componentPath !== '') {
+        console.error(`未找到组件：${routeName} ${fullPath}`)
+    }
+    return module as () => Promise<any>
 }
 
 export default router

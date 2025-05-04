@@ -7,21 +7,23 @@
             <work-tab v-if="showWorkTab"></work-tab>
         </top-bar>
         <!-- 内容区域 -->
-        <router-view v-slot="{ Component, route }" class="container">
-            <transition appear :name="pageTransition">
-                <keep-alive :max="10" :exclude="keepAliveExclude">
-                    <component :is="Component" :key="route.path" v-if="route.meta.keepAlive" />
-                </keep-alive>
-            </transition>
-            <transition mode="out-in" appear :name="pageTransition">
-                <component :is="Component" :key="route.path" v-if="!route.meta.keepAlive" />
-            </transition>
-        </router-view>
+        <div class="container max-w-full">
+            <router-view v-slot="{ Component, route }">
+                <transition appear :name="pageTransition">
+                    <keep-alive :max="10" :exclude="keepAliveExclude">
+                        <component :is="Component" :key="route.path" v-if="route.meta.keepAlive" />
+                    </keep-alive>
+                </transition>
+                <transition mode="out-in" appear :name="pageTransition">
+                    <component :is="Component" :key="route.path" v-if="!route.meta.keepAlive" />
+                </transition>
+            </router-view>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
 import { useSettingStore } from '@/store/settings.ts'
-import { useWorktabStore } from '@/store/worktab.ts'
+import { useWorkTabStore } from '@/store/worktab.ts'
 import TopBar from '@/components/TopBar/index.vue'
 import WorkTab from '@/components/WorkTab/index.vue'
 import { useMenuStore } from '@/store/menu.ts'
@@ -31,7 +33,7 @@ import { getTabConfig } from '@/utils/tabs.ts'
 const settingStore = useSettingStore()
 const menuStore = useMenuStore()
 const { pageTransition, showWorkTab, menuOpen } = storeToRefs(settingStore)
-const { keepAliveExclude } = storeToRefs(useWorktabStore())
+const { keepAliveExclude } = storeToRefs(useWorkTabStore())
 
 // 根据菜单是否打开来设置左侧填充宽度
 const paddingLeft = computed(() => {

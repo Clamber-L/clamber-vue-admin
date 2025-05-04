@@ -3,5 +3,6 @@ export enum RoutersAlias {
     Dashboard = '/dashboard',
     Login = '/login',
     Register = '/register',
-    ForgetPassword = '/forget_password'
+    ForgetPassword = '/forget_password',
+    Form = '/form'
 }

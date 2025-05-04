@@ -34,5 +34,17 @@ export const asyncRoutes: MenuListType[] = [
         //         }
         //     }
         // ]
+    },
+    {
+        id: '2',
+        name: 'Form',
+        path: RoutersAlias.Form,
+        component: RoutersAlias.Form,
+        meta: {
+            title: '表单',
+            icon: '&#xe721;',
+            keepAlive: true
+        },
+        children: []
     }
 ]

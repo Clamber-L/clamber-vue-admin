@@ -45,59 +45,61 @@
 
                 <!-- 用户头像、菜单 -->
                 <div class="user">
-                    <el-popover
-                        ref="userMenuPopover"
-                        placement="bottom-end"
-                        :width="240"
-                        :hide-after="0"
-                        :offset="10"
-                        trigger="hover"
-                        :show-arrow="false"
-                        popper-class="user-menu-popover"
-                        popper-style="border: 1px solid var(--art-border-dashed-color); border-radius: calc(var(--custom-radius) / 2 + 4px); padding: 5px 16px; 5px 16px;">
-                        <template #reference>
-                            <!--                            <img class="cover" :src="userInfo.avatar" />-->
-                        </template>
-                        <template #default>
-                            <div class="user-menu-box">
-                                <div class="user-head">
-                                    <!--                                    <img class="cover" :src="userInfo.avatar" style="float: left" />-->
-                                    <div class="user-wrap">
-                                        <!--                                        <span class="name">{{ userInfo.username }}</span>-->
-                                        <!--                                        <span class="email" v-if="userInfo.email">{{-->
-                                        <!--                                            userInfo.email-->
-                                        <!--                                        }}</span>-->
-                                    </div>
-                                </div>
-                                <ul class="user-menu">
-                                    <li @click="goPage('/user/user')">
-                                        <i class="menu-icon iconfont-sys">&#xe734;</i>
-                                        <span class="menu-txt">个人中心</span>
-                                    </li>
-                                    <li @click="toDocs()">
-                                        <i class="menu-icon iconfont-sys" style="font-size: 15px"
-                                            >&#xe828;</i
-                                        >
-                                        <span class="menu-txt">使用文档</span>
-                                    </li>
-                                    <li @click="toGithub()">
-                                        <i class="menu-icon iconfont-sys">&#xe8d6;</i>
-                                        <span class="menu-txt">Github</span>
-                                    </li>
-                                    <li @click="lockScreen()">
-                                        <i class="menu-icon iconfont-sys">&#xe817;</i>
-                                        <span class="menu-txt">锁定屏幕</span>
-                                    </li>
-                                    <div class="line"></div>
-                                    <div class="logout-btn" @click="loginOut">退出登录</div>
-                                </ul>
-                            </div>
-                        </template>
-                    </el-popover>
+                    <!--                    <el-popover-->
+                    <!--                        ref="userMenuPopover"-->
+                    <!--                        placement="bottom-end"-->
+                    <!--                        :width="240"-->
+                    <!--                        :hide-after="0"-->
+                    <!--                        :offset="10"-->
+                    <!--                        trigger="hover"-->
+                    <!--                        :show-arrow="false"-->
+                    <!--                        popper-class="user-menu-popover"-->
+                    <!--                        popper-style="border: 1px solid var(&#45;&#45;art-border-dashed-color); border-radius: calc(var(&#45;&#45;custom-radius) / 2 + 4px); padding: 5px 16px; 5px 16px;">-->
+                    <!--                        <template #reference>-->
+                    <!--                            &lt;!&ndash;                            <img class="cover" :src="userInfo.avatar" />&ndash;&gt;-->
+                    <!--                        </template>-->
+                    <!--                        <template #default>-->
+                    <!--                            <div class="user-menu-box">-->
+                    <!--                                <div class="user-head">-->
+                    <!--                                    &lt;!&ndash;                                    <img class="cover" :src="userInfo.avatar" style="float: left" />&ndash;&gt;-->
+                    <!--                                    <div class="user-wrap">-->
+                    <!--                                        &lt;!&ndash;                                        <span class="name">{{ userInfo.username }}</span>&ndash;&gt;-->
+                    <!--                                        &lt;!&ndash;                                        <span class="email" v-if="userInfo.email">{{&ndash;&gt;-->
+                    <!--                                        &lt;!&ndash;                                            userInfo.email&ndash;&gt;-->
+                    <!--                                        &lt;!&ndash;                                        }}</span>&ndash;&gt;-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+                    <!--                                <ul class="user-menu">-->
+                    <!--                                    <li @click="goPage('/user/user')">-->
+                    <!--                                        <i class="menu-icon iconfont-sys">&#xe734;</i>-->
+                    <!--                                        <span class="menu-txt">个人中心</span>-->
+                    <!--                                    </li>-->
+                    <!--                                    <li @click="toDocs()">-->
+                    <!--                                        <i class="menu-icon iconfont-sys" style="font-size: 15px"-->
+                    <!--                                            >&#xe828;</i-->
+                    <!--                                        >-->
+                    <!--                                        <span class="menu-txt">使用文档</span>-->
+                    <!--                                    </li>-->
+                    <!--                                    <li @click="toGithub()">-->
+                    <!--                                        <i class="menu-icon iconfont-sys">&#xe8d6;</i>-->
+                    <!--                                        <span class="menu-txt">Github</span>-->
+                    <!--                                    </li>-->
+                    <!--                                    <li @click="lockScreen()">-->
+                    <!--                                        <i class="menu-icon iconfont-sys">&#xe817;</i>-->
+                    <!--                                        <span class="menu-txt">锁定屏幕</span>-->
+                    <!--                                    </li>-->
+                    <!--                                    <div class="line"></div>-->
+                    <!--                                    <div class="logout-btn" @click="loginOut">退出登录</div>-->
+                    <!--                                </ul>-->
+                    <!--                            </div>-->
+                    <!--                        </template>-->
+                    <!--                    </el-popover>-->
                 </div>
             </div>
         </div>
-        <slot></slot>
+        <div>
+            <slot></slot>
+        </div>
 
         <Notice v-model:value="showNotice" ref="notice" />
     </div>

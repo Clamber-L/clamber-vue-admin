@@ -2,24 +2,12 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import router, { HOME_PAGE } from '@/router'
 import { WorkTabType } from '@/typings/modules/store'
-import { getSysStorage } from '@/utils/storage'
 
 // 选项卡
-export const useWorktabStore = defineStore('worktabStore', () => {
+export const useWorkTabStore = defineStore('workTabStore', () => {
     const current = ref<Partial<WorkTabType>>({})
     const opened = ref<WorkTabType[]>([])
     const keepAliveExclude = ref<string[]>([])
-
-    const initState = () => {
-        const sysStorage = getSysStorage()
-        if (sysStorage) {
-            const sys = JSON.parse(sysStorage)
-            const { worktab } = sys.user
-            current.value = worktab.current || {}
-            opened.value = worktab.opened || []
-            checkFirstHomePage()
-        }
-    }
 
     /**
      * 打开或激活一个选项卡
@@ -76,7 +64,7 @@ export const useWorktabStore = defineStore('worktabStore', () => {
             }
             const newIndex = index >= opened.value.length ? opened.value.length - 1 : index
             current.value = opened.value[newIndex]
-            router.push(current.value.path as string)
+            await router.push(current.value.path as string)
         } else {
             if (noCurrentTab?.name) {
                 addKeepAliveExclude(noCurrentTab)
@@ -184,7 +172,6 @@ export const useWorktabStore = defineStore('worktabStore', () => {
         current,
         opened,
         keepAliveExclude,
-        initState,
         openTab,
         removeTab,
         removeLeft,

@@ -77,9 +77,9 @@
                     <p>暂无{{ barList[barActiveIndex].name }}</p>
                 </div>
             </div>
-            <div class="btn-wrapper">
-                <el-button class="view-all" @click="handleViewAll" v-ripple> 查看全部 </el-button>
-            </div>
+            <!--            <div class="btn-wrapper">-->
+            <!--                <el-button class="view-all" @click="handleViewAll" v-ripple> 查看全部 </el-button>-->
+            <!--            </div>-->
         </div>
 
         <div style="height: 100px"></div>
@@ -261,23 +261,23 @@ const showNotice = (open: boolean) => {
 }
 
 // 查看全部
-const handleViewAll = () => {
-    switch (barActiveIndex.value) {
-        case 0:
-            handleNoticeAll()
-            break
-        case 1:
-            handleMsgAll()
-            break
-        case 2:
-            handlePendingAll()
-            break
-    }
-}
+// const handleViewAll = () => {
+//     switch (barActiveIndex.value) {
+//         case 0:
+//             handleNoticeAll()
+//             break
+//         case 1:
+//             handleMsgAll()
+//             break
+//         case 2:
+//             handlePendingAll()
+//             break
+//     }
+// }
 
-const handleNoticeAll = () => {}
-const handleMsgAll = () => {}
-const handlePendingAll = () => {}
+// const handleNoticeAll = () => {}
+// const handleMsgAll = () => {}
+// const handlePendingAll = () => {}
 </script>
 
 <style lang="scss" scoped>

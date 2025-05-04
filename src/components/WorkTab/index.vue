@@ -48,7 +48,7 @@
                             :disabled="
                                 list.length === 1 || (list.length === 2 && activeTabIndex === 1)
                             ">
-                            <span>关闭其它}</span>
+                            <span>关闭其它</span>
                         </el-dropdown-item>
                         <el-dropdown-item
                             :icon="CircleClose"
@@ -60,7 +60,7 @@
                 </template>
             </el-dropdown>
         </div>
-        <MenuRight ref="menuRef" :menu-items="menuItems" @select="handleSelect" />
+        <!--        <MenuRight ref="menuRef" :menu-items="menuItems" @select="handleSelect" />-->
     </div>
 </template>
 
@@ -70,11 +70,11 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { LocationQueryRaw, useRouter } from 'vue-router'
 import { ArrowDown, ArrowLeft, ArrowRight, Close, CircleClose } from '@element-plus/icons-vue'
 
-import { useWorktabStore } from '@/store/worktab.ts'
+import { useWorkTabStore } from '@/store/worktab.ts'
 import { useSettingStore } from '@/store/settings.ts'
 import { WorkTabType } from '@/typings/modules/store'
 
-const store = useWorktabStore()
+const store = useWorkTabStore()
 const router = useRouter()
 const { currentRoute } = router
 const settingStore = useSettingStore()
@@ -149,7 +149,7 @@ const setTransition = () => {
 }
 
 // 自动定位当前标签页到可视区域
-const worktabAutoPosition = () => {
+const workTabAutoPosition = () => {
     if (!scrollRef.value || !tabsRef.value) return
 
     const scrollWidth = scrollRef.value.offsetWidth
@@ -181,7 +181,7 @@ const worktabAutoPosition = () => {
 onMounted(() => {
     listenerScroll() // 监听滚动事件
     addTouchListeners() // 添加触摸事件监听
-    worktabAutoPosition() // 初始定位
+    workTabAutoPosition() // 初始定位
 })
 
 // 监听路由变化，自动定位标签页
@@ -189,7 +189,7 @@ watch(
     () => currentRoute.value,
     () => {
         setTransition()
-        worktabAutoPosition()
+        workTabAutoPosition()
     }
 )
 
