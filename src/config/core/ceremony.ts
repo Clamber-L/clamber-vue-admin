@@ -3,8 +3,8 @@ import AppConfig from '@/config'
 const { name } = AppConfig.systemInfo
 
 // 图片需要在 components/Ceremony/Fireworks 文件预先定义
-import sd from '@imgs/ceremony/sd.png'
-import yd from '@imgs/ceremony/yd.png'
+import sd from '@/assets/img/ceremony/sd.png'
+import yd from '@/assets/img/ceremony/yd.png'
 
 export const festivalList = [
   {

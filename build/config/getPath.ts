@@ -18,3 +18,7 @@ export const getSrcPath = (mainName = 'src') => {
   const rootPath = getRootPath()
   return `${rootPath}/${mainName}`
 }
+
+export function resolvePath(p) {
+  return path.resolve(__dirname, p)
+}

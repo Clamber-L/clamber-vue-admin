@@ -6,7 +6,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import terser from '@rollup/plugin-terser'
 import UnoCSS from '@unocss/vite'
-import { getRootPath, getSrcPath } from './build/config/getPath'
+import { getRootPath, getSrcPath, resolvePath } from './build/config/getPath'
 
 /** ! 不需要优化前端打包(如开启gzip) */
 export default defineConfig(({ mode }: ConfigEnv) => {
@@ -18,14 +18,25 @@ export default defineConfig(({ mode }: ConfigEnv) => {
                 // 配置路径别名@
                 '@': getSrcPath(),
                 // 配置路径别名~(根路径)
-                '~': getRootPath()
+                '~': getRootPath(),
+                '@views': resolvePath('src/views'),
+                '@/components': resolvePath('src/components'),
+                '@/assets/img': resolvePath('src/assets/img'),
+                '@icons': resolvePath('src/assets/icons'),
+                '@utils': resolvePath('src/utils'),
+                '@stores': resolvePath('src/store'),
+                '@plugins': resolvePath('src/plugins'),
+                '@styles': resolvePath('src/assets/styles')
             }
         },
         css: {
             preprocessorOptions: {
+                // sass variable and mixin
                 scss: {
                     api: 'modern-compiler',
-                    additionalData: '@use "@/assets/styles/variables.scss" as *;' // 加载全局样式，使用scss特性
+                    additionalData: `
+            @use "@/assets/styles/variables.scss" as *; @use "@/assets/styles/mixin.scss" as *;
+          `
                 }
             }
         },
@@ -126,14 +137,14 @@ export default defineConfig(({ mode }: ConfigEnv) => {
             UnoCSS(), // 开启UnoCSS
             AutoImport({
                 resolvers: [ElementPlusResolver()],
-                imports: ['vue', 'vue-router', 'pinia'],
-                dts: 'src/typings/auto-imports.d.ts'
+                imports: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
+                dts: 'src/types/auto-imports.d.ts'
             }),
             /** 自动导入组件，但是不会自动导入jsx和tsx */
             Components({
                 dirs: ['src/components/**'], // 设置需要扫描的目录
                 resolvers: [ElementPlusResolver()],
-                dts: 'src/typings/components.d.ts'
+                dts: 'src/types/components.d.ts'
             }),
             /** 压缩代码 */
             terser({
@@ -180,7 +191,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
                     // “/api” 以及前置字符串会被替换为真正域名
                     target: config.VITE_SERVICE_URL, // 请求域名
                     changeOrigin: true, // 是否跨域
-                    rewrite: (path) => path.replace(/^\/api/, '')
+                    rewrite: (p) => p.replace(/^\/api/, '')
                 }
             },
             hmr: true, // 热更新
