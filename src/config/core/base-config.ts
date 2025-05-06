@@ -6,7 +6,7 @@ import { SystemConfig } from '../types'
 export const createBaseConfig = (): SystemConfig => ({
   // 系统信息
   systemInfo: {
-    name: 'Art Design Pro',
+    name: 'Clamber-Vue-Admin',
     login: {
       username: 'admin',
       password: '123456'
@@ -123,6 +123,6 @@ export const createBaseConfig = (): SystemConfig => ({
   systemSetting: {
     defaultMenuWidth: 252, // 菜单宽度
     defaultCustomRadius: '0.75', // 自定义圆角
-    defaultTabStyle: 'tab-default' // 标签样式
+    // defaultTabStyle: 'tab-default' // 标签样式
   }
 })

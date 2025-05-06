@@ -26,6 +26,5 @@ export interface SystemConfig {
   systemSetting: {
     defaultMenuWidth: number
     defaultCustomRadius: string
-    defaultTabStyle: string
   }
 }

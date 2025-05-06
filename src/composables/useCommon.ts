@@ -4,7 +4,7 @@ import { useSettingStore } from '@/store/modules/setting'
 // 通用函数
 export function useCommon() {
     const settingStore = useSettingStore()
-    const { showWorkTab, tabStyle } = storeToRefs(settingStore)
+    const { showWorkTab } = storeToRefs(settingStore)
 
     // 刷新页面
     const refresh = () => {
@@ -18,7 +18,7 @@ export function useCommon() {
 
     // 页面最小高度
     const containerMinHeight = computed(() => {
-        const { openHeight, closeHeight } = getTabConfig(tabStyle.value)
+        const { openHeight, closeHeight } = getTabConfig()
         return `calc(100vh - ${showWorkTab.value ? openHeight : closeHeight}px)`
     })
 

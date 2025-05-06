@@ -110,7 +110,6 @@ declare module 'vue' {
     TimelineListCard: typeof import('./../components/Widgets/Cards/TimelineListCard.vue')['default']
     TopBar: typeof import('./../components/Layout/TopBar/index.vue')['default']
     VideoPlayer: typeof import('./../components/Widgets/VideoPlayer.vue')['default']
-    Watermark: typeof import('./../components/Widgets/Watermark.vue')['default']
     WorkTab: typeof import('./../components/Layout/WorkTab/index.vue')['default']
   }
   export interface ComponentCustomProperties {

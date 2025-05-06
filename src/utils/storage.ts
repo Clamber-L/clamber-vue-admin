@@ -92,7 +92,6 @@ export function validateStorageData() {
                 showCrumbs: 'boolean',
                 autoClose: 'boolean',
                 showWorkTab: 'boolean',
-                showLanguage: 'boolean',
                 showNprogress: 'boolean',
                 colorWeak: 'boolean',
                 showSettingGuide: 'boolean',

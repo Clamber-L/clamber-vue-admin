@@ -54,7 +54,7 @@ export const useUserStore = defineStore('userStore', () => {
                 lockPassword: lockPassword.value,
                 searchHistory: searchHistory.value,
                 refreshToken: refreshToken.value,
-                worktab: getWorkTabState.value,
+                workTab: getWorkTabState.value,
                 setting: getSettingState.value
             }
         })

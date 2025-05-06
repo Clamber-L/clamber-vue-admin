@@ -1,7 +1,7 @@
 <template>
     <div class="frame" :style="{ paddingLeft, paddingTop }">
         <!-- 左侧菜单 -->
-        <menu-left v-if="showLeftMenu || isDualMenu"></menu-left>
+        <menu-left></menu-left>
 
         <!-- 搜索组件 -->
         <search></search>
@@ -49,9 +49,6 @@
 
         <!-- 烟花组件 -->
         <fireworks></fireworks>
-
-        <!-- 水印组件 -->
-        <Watermark :visible="watermarkVisible"></Watermark>
     </div>
 </template>
 
@@ -62,7 +59,7 @@ import MenuLeft from '@/components/Layout/MenuLeft/index.vue'
 import TopBar from '@/components/Layout/TopBar/index.vue'
 import WorkTab from '@/components/Layout/WorkTab/index.vue'
 import Setting from '@/components/Layout/Setting/index.vue'
-import { MenuWidth, MenuTypeEnum } from '@/enums/appEnum'
+import { MenuWidth } from '@/enums/appEnum'
 import { useMenuStore } from '@/store/modules/menu'
 import { useSettingStore } from '@/store/modules/setting'
 import { useWorkTabStore } from '@/store/modules/worktab'
@@ -78,41 +75,21 @@ const { isOnline } = useNetwork()
 const settingStore = useSettingStore()
 const menuStore = useMenuStore()
 
-const {
-    menuType,
-    menuOpen,
-    showWorkTab,
-    refresh,
-    pageTransition,
-    watermarkVisible,
-    containerWidth,
-    tabStyle
-} = storeToRefs(settingStore)
+const { menuOpen, showWorkTab, refresh, pageTransition, containerWidth } = storeToRefs(settingStore)
 
 const { keepAliveExclude } = storeToRefs(workTabStore)
-
-// 是否显示左侧菜单
-const showLeftMenu = computed(
-    () => menuType.value === MenuTypeEnum.LEFT || menuType.value === MenuTypeEnum.TOP_LEFT
-)
-// 是否是双列菜单
-const isDualMenu = computed(() => settingStore.menuType === MenuTypeEnum.DUAL_MENU)
 
 // 根据菜单是否打开来设置左侧填充宽度
 const paddingLeft = computed(() => {
     const width = menuOpen.value ? settingStore.getMenuOpenWidth : MenuWidth.CLOSE
     menuStore.setMenuWidth(width) // 更新菜单宽度
 
-    // 双列菜单
-    if (menuType.value === MenuTypeEnum.DUAL_MENU) {
-        return `calc(${width} + 80px)`
-    }
-    return menuType.value !== MenuTypeEnum.TOP ? width : 0
+    return width
 })
 
 // 计算顶部填充高度
 const paddingTop = computed(() => {
-    const { openTop, closeTop } = getTabConfig(tabStyle.value)
+    const { openTop, closeTop } = getTabConfig()
     return `${showWorkTab.value ? openTop : closeTop}px`
 })
 

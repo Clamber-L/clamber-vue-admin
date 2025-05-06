@@ -6,7 +6,7 @@
                     <img class="bg" src="@/assets/img/user/bg.png" />
                     <img class="avatar" :src="userInfo.avatar" />
                     <h2 class="name">{{ userInfo.username }}</h2>
-                    <p class="des">Art Design Pro 是一款漂亮的后台管理系统模版.</p>
+                    <p class="des">{{ name }} 是一款漂亮的后台管理系统模版.</p>
 
                     <div class="outer-info">
                         <div>
@@ -149,6 +149,9 @@
 <script setup lang="ts">
 import { useUserStore } from '@/store/modules/user'
 import { FormInstance, FormRules } from 'element-plus'
+import AppConfig from '@/config'
+
+const { name } = AppConfig.systemInfo
 
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.getUserInfo)

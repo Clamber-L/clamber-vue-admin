@@ -133,10 +133,6 @@
                         <span>自动关闭设置中心</span>
                         <el-switch v-model="autoClose" @change="setAutoClose" />
                     </div>
-                    <div class="item">
-                        <span>全局水印</span>
-                        <el-switch v-model="watermarkVisible" @change="setWatermarkVisible" />
-                    </div>
                     <div class="item" style="display: flex">
                         <span>菜单宽度</span>
                         <el-input-number
@@ -223,7 +219,6 @@ const {
     tabStyle,
     customRadius,
     menuType,
-    watermarkVisible,
     menuOpenWidth,
     containerWidth
 } = storeToRefs(settingStore)
@@ -277,21 +272,6 @@ const showWorkTab = ref(true)
 const showLanguage = ref(true)
 const showNprogress = ref(true)
 const colorWeak = ref(false)
-
-const tabStyleOps = computed(() => [
-    {
-        value: 'tab-default',
-        label: '默认'
-    },
-    {
-        value: 'tab-card',
-        label: '卡片'
-    },
-    {
-        value: 'tab-google',
-        label: '谷歌'
-    }
-])
 
 const pageTransitionOps = [
     {
@@ -501,8 +481,6 @@ const showWorkTabFunc = () =>
 const setPageTransition = (transition: string) =>
     autoCloseHandler(settingStore.setPageTransition, false, transition)
 
-const setTabStyle = (style: string) => autoCloseHandler(settingStore.setTabStyle, false, style)
-
 const setContainerWidth = (type: ContainerWidthEnum) =>
     autoCloseHandler(settingStore.setContainerWidth, true, type)
 
@@ -536,9 +514,6 @@ const setColorWeak = () => {
     settingStore.setColorWeak()
     isAutoClose()
 }
-
-const setWatermarkVisible = () =>
-    autoCloseHandler(settingStore.setWatermarkVisible, false, !settingStore.watermarkVisible)
 
 const setMenuOpenSize = () =>
     menuOpenWidth.value &&

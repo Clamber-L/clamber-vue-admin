@@ -7,7 +7,7 @@ import { colourBlend, handleElementThemeColor } from '@/utils/colors'
 import { getSysStorage } from '@/utils/storage'
 import { useCeremony } from '@/composables/useCeremony'
 
-const { defaultMenuWidth, defaultCustomRadius, defaultTabStyle } = AppConfig.systemSetting
+const { defaultMenuWidth, defaultCustomRadius } = AppConfig.systemSetting
 
 // 系统设置
 export const useSettingStore = defineStore('settingStore', () => {
@@ -28,10 +28,8 @@ export const useSettingStore = defineStore('settingStore', () => {
     const colorWeak = ref(false)
     const showSettingGuide = ref(true)
     const pageTransition = ref('slide-right')
-    const tabStyle = ref(defaultTabStyle)
     const menuOpen = ref(true)
     const refresh = ref(false)
-    const watermarkVisible = ref(false)
     const customRadius = ref(defaultCustomRadius)
     const holidayFireworksLoaded = ref(false)
     const showFestivalText = ref(false)
@@ -87,9 +85,7 @@ export const useSettingStore = defineStore('settingStore', () => {
             colorWeak.value = setting.colorWeak
             showSettingGuide.value = setting.showSettingGuide
             pageTransition.value = setting.pageTransition
-            tabStyle.value = setting.tabStyle || defaultTabStyle
             menuOpen.value = setting.menuOpen
-            watermarkVisible.value = setting.watermarkVisible
             customRadius.value = setting.customRadius || defaultCustomRadius
             holidayFireworksLoaded.value = setting.holidayFireworksLoaded
             showFestivalText.value = setting.showFestivalText
@@ -177,20 +173,12 @@ export const useSettingStore = defineStore('settingStore', () => {
         pageTransition.value = transition
     }
 
-    const setTabStyle = (style: string) => {
-        tabStyle.value = style
-    }
-
     const setMenuOpen = (open: boolean) => {
         menuOpen.value = open
     }
 
     const reload = () => {
         refresh.value = !refresh.value
-    }
-
-    const setWatermarkVisible = (visible: boolean) => {
-        watermarkVisible.value = visible
     }
 
     const setCustomRadius = (radius: string) => {
@@ -232,10 +220,8 @@ export const useSettingStore = defineStore('settingStore', () => {
         colorWeak,
         showSettingGuide,
         pageTransition,
-        tabStyle,
         menuOpen,
         refresh,
-        watermarkVisible,
         customRadius,
         holidayFireworksLoaded,
         showFestivalText,
@@ -266,10 +252,8 @@ export const useSettingStore = defineStore('settingStore', () => {
         hideSettingGuide,
         openSettingGuide,
         setPageTransition,
-        setTabStyle,
         setMenuOpen,
         reload,
-        setWatermarkVisible,
         setCustomRadius,
         setholidayFireworksLoaded,
         setShowFestivalText,
