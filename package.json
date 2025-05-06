@@ -28,13 +28,13 @@
     "pinia": "^2.2.1",
     "pinia-plugin-persistedstate": "^4.1.2",
     "pinia-shared-state": "^0.5.1",
+    "qrcode.vue": "^3.6.0",
     "vue": "^3.5.13",
+    "vue-draggable-plus": "^0.6.0",
     "vue-router": "^4.5.0",
     "vue3-count-to": "^1.1.2",
     "xgplayer": "^3.0.20",
-    "xlsx": "^0.18.5",
-    "vue-draggable-plus": "^0.6.0",
-    "qrcode.vue": "^3.6.0"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.9",
@@ -88,7 +88,9 @@
       ]
     },
     "ignoredBuiltDependencies": [
-      "core-js"
+      "core-js",
+      "esbuild",
+      "unrs-resolver"
     ]
   }
 }
