@@ -6,7 +6,7 @@
                     :class="{ clickable: item.path !== '/outside' && !isLastItem(index) }"
                     @click="!isLastItem(index) && handleClick(item)">
                     <span>
-                        {{ formatMenuTitle(item.meta?.title as string) }}
+                        {{ item.meta?.title as string }}
                     </span>
                 </div>
                 <i v-if="!isLastItem(index) && item.meta?.title" aria-hidden="true">/</i>
@@ -19,7 +19,6 @@
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import type { RouteLocationMatched, RouteRecordRaw } from 'vue-router'
-import { formatMenuTitle } from '@/utils/menu'
 
 export interface BreadcrumbItem {
     path: string
@@ -32,7 +31,7 @@ const breadList = ref<BreadcrumbItem[]>([])
 
 // 计算函数
 const isLastItem = (index: number) => index === breadList.value.length - 1
-const isHome = (route: RouteLocationMatched) => route.name === '/'
+const isHome = (r: RouteLocationMatched) => r.name === '/'
 
 // 获取面包屑数据
 const getBreadcrumb = () => {
@@ -65,7 +64,7 @@ const handleClick = async (item: BreadcrumbItem) => {
         return
     }
 
-    const currentRoute = router.getRoutes().find((route) => route.path === path)
+    const currentRoute = router.getRoutes().find((r) => r.path === path)
 
     if (!currentRoute?.children?.length) {
         await router.push(path)

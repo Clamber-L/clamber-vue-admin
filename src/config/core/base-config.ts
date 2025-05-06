@@ -1,4 +1,4 @@
-import { MenuThemeEnum, MenuTypeEnum, SystemThemeEnum } from '@/enums/appEnum'
+import { MenuThemeEnum, SystemThemeEnum } from '@/enums/appEnum'
 import { configImages } from '../assets/images'
 import { SystemConfig } from '../types'
 
@@ -24,7 +24,7 @@ export const createBaseConfig = (): SystemConfig => ({
   // 系统主题列表
   settingThemeList: [
     {
-      name: 'Light',
+      name: '浅色',
       theme: SystemThemeEnum.LIGHT,
       color: ['#fff', '#fff'],
       leftLineColor: '#EDEEF0',
@@ -32,7 +32,7 @@ export const createBaseConfig = (): SystemConfig => ({
       img: configImages.themeStyles.light
     },
     {
-      name: 'Dark',
+      name: '深色',
       theme: SystemThemeEnum.DARK,
       color: ['#22252A'],
       leftLineColor: '#3F4257',
@@ -40,20 +40,13 @@ export const createBaseConfig = (): SystemConfig => ({
       img: configImages.themeStyles.dark
     },
     {
-      name: 'System',
+      name: '系统',
       theme: SystemThemeEnum.AUTO,
       color: ['#fff', '#22252A'],
       leftLineColor: '#EDEEF0',
       rightLineColor: '#3F4257',
       img: configImages.themeStyles.system
     }
-  ],
-  // 菜单布局列表
-  menuLayoutList: [
-    { name: 'Left', value: MenuTypeEnum.LEFT, img: configImages.menuLayouts.vertical },
-    { name: 'Top', value: MenuTypeEnum.TOP, img: configImages.menuLayouts.horizontal },
-    { name: 'Mixed', value: MenuTypeEnum.TOP_LEFT, img: configImages.menuLayouts.mixed },
-    { name: 'Dual Column', value: MenuTypeEnum.DUAL_MENU, img: configImages.menuLayouts.dualColumn }
   ],
   // 菜单主题列表
   themeList: [

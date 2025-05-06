@@ -15,47 +15,23 @@
                 </div>
 
                 <!-- 主题风格 -->
-                <p class="title">{{ $t('setting.theme.title') }}</p>
+                <p class="title">主题风格</p>
                 <div class="theme-styles">
                     <div
                         class="style-item"
-                        v-for="(item, index) in settingThemeList"
+                        v-for="item in settingThemeList"
                         :key="item.theme"
                         @click="switchThemeStyles(item.theme)">
                         <div class="box" :class="{ 'is-active': item.theme === systemThemeMode }">
                             <img :src="item.img" />
                         </div>
-                        <p class="name">{{ $t(`setting.theme.list[${index}]`) }}</p>
+                        <p class="name">{{ item.name }}</p>
                         <div class="active" v-show="item.theme === systemThemeMode"></div>
                     </div>
                 </div>
 
-                <!-- 菜单布局 -->
-                <div v-if="width > 1000">
-                    <p class="title" style="margin-top: 30px">{{ $t('setting.menuType.title') }}</p>
-                    <div class="menu-layouts">
-                        <div class="menu-layouts-wrap">
-                            <div
-                                class="style-item"
-                                v-for="(item, index) in AppConfig.menuLayoutList"
-                                :key="item.value"
-                                @click="switchMenuLayouts(item.value)">
-                                <div
-                                    class="box"
-                                    :class="{
-                                        'is-active': item.value === menuType,
-                                        'mt-16': index > 2
-                                    }">
-                                    <img :src="item.img" />
-                                </div>
-                                <p class="name">{{ $t(`setting.menuType.list[${index}]`) }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- 菜单风格 -->
-                <p class="title" style="margin-top: 0">{{ $t('setting.menu.title') }}</p>
+                <p class="title" style="margin-top: 0">菜单风格</p>
                 <div class="menu-styles">
                     <div class="menu-styles-wrap">
                         <div
@@ -67,8 +43,7 @@
                                 class="box"
                                 :class="{ 'is-active': item.theme === menuThemeType }"
                                 :style="{
-                                    cursor:
-                                        isDualMenu || isTopMenu || isDark ? 'no-drop' : 'pointer'
+                                    cursor: isDark ? 'no-drop' : 'pointer'
                                 }">
                                 <img :src="item.img" />
                             </div>
@@ -78,7 +53,7 @@
                 </div>
 
                 <!-- 系统主题色 -->
-                <p class="title" style="margin-top: 60px">{{ $t('setting.color.title') }}</p>
+                <p class="title" style="margin-top: 60px">系统主题色</p>
                 <div class="main-color-wrap">
                     <div class="offset">
                         <div
@@ -92,25 +67,25 @@
                 </div>
 
                 <!-- 盒子样式 -->
-                <p class="title" style="margin-top: 40px">{{ $t('setting.box.title') }}</p>
+                <p class="title" style="margin-top: 40px">盒子样式</p>
                 <div class="box-style">
                     <div v-if="false">{{ boxBorderMode }}</div>
                     <div
                         class="button"
                         :class="{ 'is-active': boxBorderMode }"
-                        @click="switchBoxMode(false, 'border-mode')">
-                        {{ $t('setting.box.list[0]') }}
+                        @click="switchBoxMode('border-mode', false)">
+                        边框
                     </div>
                     <div
                         class="button"
                         :class="{ 'is-active': !boxBorderMode }"
-                        @click="switchBoxMode(false, 'shadow-mode')">
-                        {{ $t('setting.box.list[1]') }}
+                        @click="switchBoxMode('shadow-mode', false)">
+                        阴影
                     </div>
                 </div>
 
                 <!-- 容器宽度 -->
-                <p class="title" style="margin-top: 50px">{{ $t('setting.container.title') }}</p>
+                <p class="title" style="margin-top: 50px">容器宽度</p>
                 <div class="container-width">
                     <div
                         class="item"
@@ -119,56 +94,51 @@
                         :key="item.value"
                         @click="setContainerWidth(item.value)">
                         <i class="iconfont-sys" v-html="item.icon"></i>
-                        <span>{{ $t(item.label) }}</span>
+                        <span>{{ item.label }}</span>
                     </div>
                 </div>
 
                 <!-- 基础配置 -->
-                <p class="title" style="margin-top: 40px">{{ $t('setting.basics.title') }}</p>
+                <p class="title" style="margin-top: 40px">基础配置</p>
                 <div class="basic-box">
                     <div class="item">
-                        <span>{{ $t('setting.basics.list[4]') }}</span>
+                        <span>开启多标签栏</span>
                         <el-switch v-model="showWorkTab" @change="showWorkTabFunc" />
                     </div>
                     <div class="item" style="display: flex">
-                        <span>{{ $t('setting.basics.list[0]') }}</span>
+                        <span>侧边栏开启手风琴模式</span>
                         <el-switch v-model="uniqueOpened" @change="setUniqueOpened" />
                     </div>
                     <div class="item">
-                        <span>{{ $t('setting.basics.list[1]') }}</span>
+                        <span>显示折叠侧边栏按钮</span>
                         <el-switch v-model="showMenuButton" @change="setButton" />
                     </div>
                     <div class="item">
-                        <span>{{ $t('setting.basics.list[2]') }}</span>
+                        <span>显示重载页面按钮</span>
                         <el-switch v-model="showRefreshButton" @change="setShowRefreshButton" />
                     </div>
                     <div class="item mobile-hide">
-                        <span>{{ $t('setting.basics.list[3]') }}</span>
+                        <span>显示全局面包屑导航</span>
                         <el-switch v-model="showCrumbs" @change="setCrumbs" />
                     </div>
-
                     <div class="item">
-                        <span>{{ $t('setting.basics.list[5]') }}</span>
-                        <el-switch v-model="showLanguage" @change="setLanguage" />
-                    </div>
-                    <div class="item">
-                        <span>{{ $t('setting.basics.list[6]') }}</span>
+                        <span>显示顶部进度条</span>
                         <el-switch v-model="showNprogress" @change="setNprogress" />
                     </div>
                     <div class="item">
-                        <span>{{ $t('setting.basics.list[7]') }}</span>
+                        <span>色弱模式</span>
                         <el-switch v-model="colorWeak" @change="setColorWeak()" />
                     </div>
                     <div class="item">
-                        <span>{{ $t('setting.basics.list[8]') }}</span>
+                        <span>自动关闭设置中心</span>
                         <el-switch v-model="autoClose" @change="setAutoClose" />
                     </div>
                     <div class="item">
-                        <span>{{ $t('setting.basics.list[9]') }}</span>
+                        <span>全局水印</span>
                         <el-switch v-model="watermarkVisible" @change="setWatermarkVisible" />
                     </div>
                     <div class="item" style="display: flex">
-                        <span>{{ $t('setting.basics.list[10]') }}</span>
+                        <span>菜单宽度</span>
                         <el-input-number
                             :min="180"
                             :max="320"
@@ -180,7 +150,7 @@
                             @change="setMenuOpenSize" />
                     </div>
                     <div class="item" style="display: flex">
-                        <span>{{ $t('setting.basics.list[13]') }}</span>
+                        <span>标签页风格</span>
                         <el-select
                             v-model="tabStyle"
                             placeholder="Select"
@@ -195,7 +165,7 @@
                         </el-select>
                     </div>
                     <div class="item" style="display: flex">
-                        <span>{{ $t('setting.basics.list[11]') }}</span>
+                        <span>页面切换动画</span>
                         <el-select
                             v-model="pageTransition"
                             placeholder="Select"
@@ -210,7 +180,7 @@
                         </el-select>
                     </div>
                     <div class="item" style="display: flex">
-                        <span>{{ $t('setting.basics.list[12]') }}</span>
+                        <span>自定义圆角</span>
                         <el-select
                             v-model="customRadius"
                             placeholder="Select"
@@ -237,10 +207,6 @@ import { SystemThemeEnum, MenuThemeEnum, MenuTypeEnum, ContainerWidthEnum } from
 import mittBus from '@/utils/mittBus'
 import { useTheme } from '@/composables/useTheme'
 import { useCeremony } from '@/composables/useCeremony'
-import { useI18n } from 'vue-i18n'
-import { $t } from '../../../language'
-
-const { t } = useI18n()
 
 const { openFestival, cleanup } = useCeremony()
 const { setSystemTheme, setSystemAutoTheme, switchThemeStyles } = useTheme()
@@ -291,7 +257,9 @@ watch(width, (newWidth: number) => {
 
 watch(
     () => props.open,
-    (val: boolean) => (showDrawer.value = val)
+    (val: boolean) => {
+        showDrawer.value = val
+    }
 )
 
 const { settingThemeList } = AppConfig
@@ -300,8 +268,6 @@ const mainColor = AppConfig.systemMainColor
 
 const systemThemeColor = computed(() => settingStore.systemThemeColor as (typeof mainColor)[number])
 
-const isTopMenu = computed(() => menuType.value === MenuTypeEnum.TOP)
-const isDualMenu = computed(() => menuType.value === MenuTypeEnum.DUAL_MENU)
 const uniqueOpened = ref(true)
 const showMenuButton = ref(true)
 const autoClose = ref(true)
@@ -315,15 +281,15 @@ const colorWeak = ref(false)
 const tabStyleOps = computed(() => [
     {
         value: 'tab-default',
-        label: t('setting.tabStyle.default')
+        label: '默认'
     },
     {
         value: 'tab-card',
-        label: t('setting.tabStyle.card')
+        label: '卡片'
     },
     {
         value: 'tab-google',
-        label: t('setting.tabStyle.google')
+        label: '谷歌'
     }
 ])
 
@@ -376,12 +342,12 @@ const customRadiusOps = [
 const containerWidthList = [
     {
         value: ContainerWidthEnum.FULL,
-        label: 'setting.container.list[0]',
+        label: '铺满',
         icon: '&#xe694;'
     },
     {
         value: ContainerWidthEnum.BOXED,
-        label: 'setting.container.list[1]',
+        label: '定宽',
         icon: '&#xe6de;'
     }
 ]
@@ -435,11 +401,11 @@ const initUserSetting = () => {
     })
 
     initColorWeak()
-    setBoxMode(true, settingStore.boxBorderMode ? 'border-mode' : 'shadow-mode')
+    setBoxMode(settingStore.boxBorderMode ? 'border-mode' : 'shadow-mode', true)
 }
 
 const switchMenuStyles = (theme: MenuThemeEnum) => {
-    if (isDualMenu.value || isTopMenu.value || isDark.value) {
+    if (isDark.value) {
         return
     }
     settingStore.switchMenuStyles(theme)
@@ -462,12 +428,8 @@ const initSystemTheme = () => {
 }
 
 const switchMenuLayouts = (type: MenuTypeEnum) => {
-    if (type === MenuTypeEnum.LEFT || type === MenuTypeEnum.TOP_LEFT) settingStore.setMenuOpen(true)
+    if (type === MenuTypeEnum.LEFT) settingStore.setMenuOpen(true)
     settingStore.switchMenuLayouts(type)
-    if (type === MenuTypeEnum.DUAL_MENU) {
-        settingStore.switchMenuStyles(MenuThemeEnum.DESIGN)
-        settingStore.setMenuOpen(true)
-    }
     isAutoClose()
 }
 
@@ -490,22 +452,26 @@ const toggleDrawer = (open: boolean) => {
     }
 }
 
-const openSetting = () => (showDrawer.value = true)
+const openSetting = () => {
+    showDrawer.value = true
+}
 
-const closeDrawer = () => (showDrawer.value = false)
+const closeDrawer = () => {
+    showDrawer.value = false
+}
 
-const switchBoxMode = (isInit: boolean = false, type: string) => {
+const switchBoxMode = (type: string, isInit: boolean = false) => {
     if (
         (type === 'shadow-mode' && boxBorderMode.value === false) ||
         (type === 'border-mode' && boxBorderMode.value === true)
     ) {
         return
     }
-    setBoxMode(isInit, type)
+    setBoxMode(type, isInit)
 }
 
 // 设置盒子边框 ｜ 阴影 样式
-const setBoxMode = (isInit: boolean = false, type: string) => {
+const setBoxMode = (type: string, isInit: boolean = false) => {
     setTimeout(() => {
         const el = document.documentElement
         el.setAttribute('data-box-mode', type)
@@ -553,8 +519,6 @@ const setButton = () => autoCloseHandler(settingStore.setButton)
 const setShowRefreshButton = () => autoCloseHandler(settingStore.setShowRefreshButton)
 
 const setCrumbs = () => autoCloseHandler(settingStore.setCrumbs)
-
-const setLanguage = () => autoCloseHandler(settingStore.setLanguage)
 
 const setNprogress = () => autoCloseHandler(settingStore.setNprogress)
 

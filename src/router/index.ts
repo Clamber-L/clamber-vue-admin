@@ -15,8 +15,7 @@ import { useSettingStore } from '@/store/modules/setting'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { useTheme } from '@/composables/useTheme'
-import { setWorktab } from '@/utils/worktab'
-import { formatMenuTitle } from '@/utils/menu'
+import { setWorkTab } from '@/utils/worktab'
 import { RoutesAlias } from './modules/routesAlias'
 import { registerAsyncRoutes } from './modules/dynamicRoutes'
 
@@ -44,25 +43,25 @@ const staticRoutes: AppRouteRecordRaw[] = [
         path: '/dashboard',
         component: Home,
         name: 'Dashboard',
-        meta: { title: 'menus.dashboard.title' },
+        meta: { title: '仪表盘' },
         children: [
             {
                 path: RoutesAlias.Dashboard,
                 name: 'Console',
                 component: () => import('@/views/dashboard/console/index.vue'),
-                meta: { title: 'menus.dashboard.console', keepAlive: false }
+                meta: { title: '工作台', keepAlive: false }
             },
             {
                 path: RoutesAlias.Analysis,
                 name: 'Analysis',
                 component: () => import('@/views/dashboard/analysis/index.vue'),
-                meta: { title: 'menus.dashboard.analysis', keepAlive: false }
+                meta: { title: '分析页', keepAlive: false }
             },
             {
                 path: RoutesAlias.Ecommerce,
                 name: 'Ecommerce',
                 component: () => import('@/views/dashboard/ecommerce/index.vue'),
-                meta: { title: 'menus.dashboard.ecommerce', keepAlive: false }
+                meta: { title: '电子商务', keepAlive: false }
             }
         ]
     },
@@ -70,20 +69,20 @@ const staticRoutes: AppRouteRecordRaw[] = [
         path: RoutesAlias.Login,
         name: 'Login',
         component: () => import('@/views/login/index.vue'),
-        meta: { title: 'menus.login.title', isHideTab: true, setTheme: true }
+        meta: { title: '登录', isHideTab: true, setTheme: true }
     },
     {
         path: RoutesAlias.Register,
         name: 'Register',
         component: () => import('@/views/register/index.vue'),
-        meta: { title: 'menus.register.title', isHideTab: true, noLogin: true, setTheme: true }
+        meta: { title: '注册', isHideTab: true, noLogin: true, setTheme: true }
     },
     {
         path: RoutesAlias.ForgetPassword,
         name: 'ForgetPassword',
         component: () => import('@/views/forget-password/index.vue'),
         meta: {
-            title: 'menus.forgetPassword.title',
+            title: '忘记密码',
             isHideTab: true,
             noLogin: true,
             setTheme: true
@@ -93,7 +92,7 @@ const staticRoutes: AppRouteRecordRaw[] = [
         path: '/exception',
         component: Home,
         name: 'Exception',
-        meta: { title: 'menus.exception.title' },
+        meta: { title: '异常页面' },
         children: [
             {
                 path: RoutesAlias.Exception403,
@@ -119,7 +118,7 @@ const staticRoutes: AppRouteRecordRaw[] = [
         path: '/outside',
         component: Home,
         name: 'Outside',
-        meta: { title: 'menus.outside.title' },
+        meta: { title: '内嵌页面' },
         children: [
             {
                 path: '/outside/iframe/:path',
@@ -128,12 +127,6 @@ const staticRoutes: AppRouteRecordRaw[] = [
                 meta: { title: 'iframe' }
             }
         ]
-    },
-    {
-        path: RoutesAlias.Pricing,
-        name: 'Pricing',
-        component: () => import('@/views/template/Pricing.vue'),
-        meta: { title: 'menus.template.pricing', isHideTab: true }
     }
 ]
 
@@ -161,7 +154,7 @@ router.beforeEach(async (to, _, next) => {
     // 检查登录状态，如果未登录则跳转到登录页
     const userStore = useUserStore()
     if (!userStore.isLogin && to.path !== '/login' && !to.meta.noLogin) {
-        userStore.logOut()
+        await userStore.logOut()
         return next('/login')
     }
 
@@ -185,7 +178,7 @@ router.beforeEach(async (to, _, next) => {
     }
 
     // 设置工作标签页和页面标题
-    setWorktab(to)
+    setWorkTab(to)
     setPageTitle(to)
 
     next()
@@ -203,7 +196,7 @@ async function getMenuData(): Promise<void> {
         // 如果菜单列表为空，执行登出操作并跳转到登录页
         if (!Array.isArray(menuList) || menuList.length === 0) {
             closeLoading()
-            useUserStore().logOut()
+            await useUserStore().logOut()
             throw new Error('获取菜单列表失败，请重新登录！')
         }
 
@@ -243,7 +236,7 @@ export const setPageTitle = (to: RouteLocationNormalized): void => {
     const { title } = to.meta
     if (title) {
         setTimeout(() => {
-            document.title = `${formatMenuTitle(String(title))} - ${AppConfig.systemInfo.name}`
+            document.title = `${String(title)} - ${AppConfig.systemInfo.name}`
         }, 150)
     }
 }

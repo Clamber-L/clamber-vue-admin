@@ -14,7 +14,7 @@
                             <el-input
                                 v-model="formData.password"
                                 type="password"
-                                :placeholder="$t(`lockScreen.lock.inputPlaceholder`)"
+                                placeholder="请输入锁屏密码"
                                 :show-password="true"
                                 ref="lockInputRef"
                                 @keyup.enter="handleLock">
@@ -26,7 +26,7 @@
                             </el-input>
                         </el-form-item>
                         <el-button type="primary" class="lock-btn" @click="handleLock" v-ripple>
-                            {{ $t(`lockScreen.lock.btnText`) }}
+                            锁定
                         </el-button>
                     </el-form>
                 </div>
@@ -46,7 +46,7 @@
                         <el-input
                             v-model="unlockForm.password"
                             type="password"
-                            :placeholder="$t(`lockScreen.unlock.inputPlaceholder`)"
+                            placeholder="请输入解锁密码"
                             :show-password="true"
                             ref="unlockInputRef">
                             <template #suffix>
@@ -58,11 +58,9 @@
                     </el-form-item>
 
                     <el-button type="primary" class="unlock-btn" @click="handleUnlock" v-ripple>
-                        {{ $t(`lockScreen.unlock.btnText`) }}
+                        解锁
                     </el-button>
-                    <el-button text class="login-btn" @click="toLogin">
-                        {{ $t(`lockScreen.unlock.backBtnText`) }}
-                    </el-button>
+                    <el-button text class="login-btn" @click="toLogin"> 返回登录 </el-button>
                 </el-form>
             </div>
         </div>
@@ -76,9 +74,6 @@ import { useUserStore } from '@/store/modules/user'
 import CryptoJS from 'crypto-js'
 import { ElMessage } from 'element-plus'
 import mittBus from '@/utils/mittBus'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
 
 const ENCRYPT_KEY = import.meta.env.VITE_LOCK_ENCRYPT_KEY
 const userStore = useUserStore()
@@ -94,7 +89,7 @@ const rules = computed<FormRules>(() => ({
     password: [
         {
             required: true,
-            message: t('lockScreen.lock.inputPlaceholder'),
+            message: '请输入锁屏密码',
             trigger: 'blur'
         }
     ]
@@ -194,7 +189,7 @@ const handleUnlock = async () => {
                     console.error('更新store失败:', error)
                 }
             } else {
-                ElMessage.error(t('lockScreen.pwdError'))
+                ElMessage.error('密码错误')
             }
         } else {
             console.error('表单验证失败:', fields)

@@ -65,12 +65,12 @@ import Setting from '@/components/Layout/Setting/index.vue'
 import { MenuWidth, MenuTypeEnum } from '@/enums/appEnum'
 import { useMenuStore } from '@/store/modules/menu'
 import { useSettingStore } from '@/store/modules/setting'
-import { useWorktabStore } from '@/store/modules/worktab'
+import { useWorkTabStore } from '@/store/modules/worktab'
 import { useCommon } from '@/composables/useCommon'
 import { getTabConfig } from '@/utils/tabs'
 
 const { containerMinHeight } = useCommon()
-const worktabStore = useWorktabStore()
+const workTabStore = useWorkTabStore()
 
 // 网络状态
 const { isOnline } = useNetwork()
@@ -89,7 +89,7 @@ const {
     tabStyle
 } = storeToRefs(settingStore)
 
-const { keepAliveExclude } = storeToRefs(worktabStore)
+const { keepAliveExclude } = storeToRefs(workTabStore)
 
 // 是否显示左侧菜单
 const showLeftMenu = computed(
