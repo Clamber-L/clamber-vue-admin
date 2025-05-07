@@ -164,6 +164,7 @@ const handleSubmit = async () => {
                     password: formData.password
                 })
 
+                console.log('result:', result)
                 if (result.code === ApiStatus.success && result.data) {
                     // 设置 token
                     userStore.setToken(result.data.accessToken)
