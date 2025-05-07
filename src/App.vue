@@ -6,9 +6,9 @@
 
 <script setup lang="ts">
 import zh from 'element-plus/es/locale/lang/zh-cn'
+import { UserApi } from '@/api/usersApi.ts'
 import { useUserStore } from './store/modules/user'
 import { initState, saveUserData } from './utils/storage'
-import { UserService } from './api/usersApi'
 import { ApiStatus } from './utils/http/status'
 
 const userStore = useUserStore()
@@ -28,7 +28,7 @@ onMounted(() => {
 // 获取用户信息
 const getUserInfo = async () => {
     if (userStore.isLogin) {
-        const userRes = await UserService.getUserInfo()
+        const userRes = await UserApi.userInfo()
         if (userRes.code === ApiStatus.success) {
             userStore.setUserInfo(userRes.data)
         }

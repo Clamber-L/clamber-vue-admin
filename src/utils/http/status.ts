@@ -1,3 +1,3 @@
-export enum ApiStatus {
-  success = 200
+export const ApiStatus = {
+    success: 200
 }

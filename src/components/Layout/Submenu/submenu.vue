@@ -99,12 +99,12 @@ const MenuItemIcon = defineComponent({
         icon: String,
         color: String
     },
-    setup(props) {
+    setup(p) {
         return () =>
             h('i', {
                 class: 'menu-icon iconfont-sys',
-                style: props.color ? { color: props.color } : undefined,
-                innerHTML: props.icon
+                style: p.color ? { color: p.color } : undefined,
+                innerHTML: p.icon
             })
     }
 })

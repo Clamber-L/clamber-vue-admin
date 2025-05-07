@@ -112,7 +112,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 // 切换主题
 import { useTheme } from '@/composables/useTheme'
-import { UserService } from '@/api/usersApi'
+import { UserApi } from '@/api/usersApi'
 
 const settingStore = useSettingStore()
 const { isDark, systemThemeType } = storeToRefs(settingStore)
@@ -125,8 +125,8 @@ const isClickPass = ref(false)
 const systemName = AppConfig.systemInfo.name
 const formRef = ref<FormInstance>()
 const formData = reactive({
-    username: AppConfig.systemInfo.login.username,
-    password: AppConfig.systemInfo.login.password,
+    username: '',
+    password: '',
     rememberPassword: true
 })
 
@@ -159,19 +159,17 @@ const handleSubmit = async () => {
                 })
 
             try {
-                const res = await UserService.login({
-                    body: JSON.stringify({
-                        username: formData.username,
-                        password: formData.password
-                    })
+                const result = await UserApi.login({
+                    username: formData.username,
+                    password: formData.password
                 })
 
-                if (res.code === ApiStatus.success && res.data) {
+                if (result.code === ApiStatus.success && result.data) {
                     // 设置 token
-                    userStore.setToken(res.data.accessToken)
+                    userStore.setToken(result.data.accessToken)
 
                     // 获取用户信息
-                    const userRes = await UserService.getUserInfo()
+                    const userRes = await UserApi.userInfo()
                     if (userRes.code === ApiStatus.success) {
                         userStore.setUserInfo(userRes.data)
                     }
@@ -180,12 +178,12 @@ const handleSubmit = async () => {
                     userStore.setLoginStatus(true)
                     // 延时辅助函数
                     await delay(1000)
+                    // 跳转首页
+                    await router.push(HOME_PAGE)
                     // 登录成功提示
                     showLoginSuccessNotice()
-                    // 跳转首页
-                    router.push(HOME_PAGE)
                 } else {
-                    ElMessage.error(res.message)
+                    ElMessage.error(result.message)
                 }
             } finally {
                 await delay(1000)

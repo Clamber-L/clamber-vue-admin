@@ -1,7 +1,6 @@
 import { MenuListType } from '@/types/menu'
 import { RoutesAlias } from '@/router/modules/routesAlias.ts'
 import { WEB_LINKS } from '@/utils/links.ts'
-import { upgradeLogList } from '@/mock/upgradeLog.ts'
 
 /**
  * 菜单列表、异步路由
@@ -52,8 +51,8 @@ export const asyncRoutes: MenuListType[] = [
                 component: RoutesAlias.Ecommerce,
                 meta: {
                     title: '电子商务',
-                    keepAlive: true,
-                    showTextBadge: 'new'
+                    keepAlive: true
+                    // showTextBadge: 'new'
                 }
             }
         ]
@@ -196,8 +195,8 @@ export const asyncRoutes: MenuListType[] = [
                 component: RoutesAlias.Fireworks,
                 meta: {
                     title: '礼花',
-                    keepAlive: true,
-                    showTextBadge: 'Hot'
+                    keepAlive: true
+                    // showTextBadge: 'Hot'
                 }
             },
             {
@@ -209,8 +208,7 @@ export const asyncRoutes: MenuListType[] = [
                     title: '组件总览',
                     keepAlive: false,
                     link: 'https://element-plus.org/zh-CN/component/overview.html',
-                    isIframe: true,
-                    showBadge: true
+                    isIframe: true
                 }
             }
         ]
@@ -263,8 +261,8 @@ export const asyncRoutes: MenuListType[] = [
                 component: RoutesAlias.Map,
                 meta: {
                     title: '地图',
-                    keepAlive: true,
-                    showTextBadge: 'new'
+                    keepAlive: true
+                    // showTextBadge: 'new'
                 }
             },
             {
@@ -476,7 +474,7 @@ export const asyncRoutes: MenuListType[] = [
                 meta: {
                     title: '权限控制',
                     icon: '&#xe831;',
-                    showTextBadge: 'new',
+                    // showTextBadge: 'new',
                     keepAlive: true,
                     authList: [
                         {
@@ -769,7 +767,6 @@ export const asyncRoutes: MenuListType[] = [
         component: '/log/ChangeLog',
         meta: {
             title: '更新日志',
-            showTextBadge: `${upgradeLogList.value[0].version}`,
             icon: '&#xe712;',
             keepAlive: false,
             isInMainContainer: true
