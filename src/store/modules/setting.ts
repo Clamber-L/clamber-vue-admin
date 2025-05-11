@@ -7,7 +7,7 @@ import { colourBlend, handleElementThemeColor } from '@/utils/colors'
 import { getSysStorage } from '@/utils/storage'
 import { useCeremony } from '@/composables/useCeremony'
 
-const { defaultMenuWidth, defaultCustomRadius } = AppConfig.systemSetting
+const { defaultMenuWidth, defaultCustomRadius, defaultLoginImage } = AppConfig.systemSetting
 
 // 系统设置
 export const useSettingStore = defineStore('settingStore', () => {
@@ -36,6 +36,8 @@ export const useSettingStore = defineStore('settingStore', () => {
     const festivalDate = ref('')
     const dualMenuShowText = ref(false)
     const containerWidth = ref(ContainerWidthEnum.FULL)
+    const loginImage = ref(localStorage.getItem('user.setting.loginImage') || defaultLoginImage)
+    const loginImageLoaded = ref(false)
 
     const getMenuTheme = computed((): MenuThemeType => {
         const list = AppConfig.themeList.filter((item) => item.theme === menuThemeType.value)
@@ -233,6 +235,8 @@ export const useSettingStore = defineStore('settingStore', () => {
         getMenuOpenWidth,
         getCustomRadius,
         isShowFireworks,
+        loginImage,
+        loginImageLoaded,
         initState,
         switchMenuLayouts,
         setMenuOpenWidth,

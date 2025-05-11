@@ -1,16 +1,13 @@
 import { MenuThemeEnum, SystemThemeEnum } from '@/enums/appEnum'
 import { configImages } from '../assets/images'
 import { SystemConfig } from '../types'
+import defaultImage from '@/assets/img/login/lf_bg.png'
 
 // 创建基础配置
 export const createBaseConfig = (): SystemConfig => ({
   // 系统信息
   systemInfo: {
     name: 'Clamber-Vue-Admin',
-    login: {
-      username: 'admin',
-      password: '123456'
-    }
   },
   // Element Plus 主题
   elementPlusTheme: {
@@ -124,5 +121,6 @@ export const createBaseConfig = (): SystemConfig => ({
     defaultMenuWidth: 252, // 菜单宽度
     defaultCustomRadius: '0.75', // 自定义圆角
     // defaultTabStyle: 'tab-default' // 标签样式
+    defaultLoginImage: defaultImage
   }
 })

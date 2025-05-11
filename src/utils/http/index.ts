@@ -53,6 +53,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
     (response: AxiosResponse) => response,
     (error) => {
+        console.log('response error', error)
         if (axios.isCancel(error)) {
             console.log(`repeated request: ${error.message}`)
         } else {
@@ -92,10 +93,10 @@ async function request<T = any>(config: AxiosRequestConfig): Promise<T> {
 
 // API 方法集合
 const api = {
-    get<T>(url: string, params: Record<string, any>): Promise<T> {
+    get<T>(url: string, params?: Record<string, any>): Promise<T> {
         return request({ url, params, method: 'GET' }) // GET 请求
     },
-    post<T>(url: string, data: Record<string, any>): Promise<T> {
+    post<T>(url: string, data?: Record<string, any>): Promise<T> {
         return request({ url, data, method: 'POST' }) // POST 请求
     },
     put<T>(config: AxiosRequestConfig): Promise<T> {

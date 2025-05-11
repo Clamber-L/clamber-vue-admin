@@ -16,7 +16,6 @@ export interface SystemConfig {
   elementPlusTheme: { primary: string }
   systemInfo: {
     name: string
-    login: { username: string; password: string }
   }
   systemThemeStyles: SystemThemeTypes
   settingThemeList: ThemeSetting[]
@@ -26,5 +25,6 @@ export interface SystemConfig {
   systemSetting: {
     defaultMenuWidth: number
     defaultCustomRadius: string
+    defaultLoginImage: string
   }
 }
