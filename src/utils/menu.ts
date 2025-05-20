@@ -9,13 +9,9 @@ import { MenuListType } from '@/types/menu'
  */
 export const processRoute = (route: MenuListType, parentPath = ''): MenuListType => {
     // 构建完整路径
-    const currentPath = route.path
-        ? route.meta?.isIframe
-            ? route.path // isIframe 为 true 时直接使用原始路径
-            : parentPath
-              ? `${parentPath}/${route.path}`.replace(/\/+/g, '/') // 规范化路径,避免多余的斜杠
-              : route.path
-        : ''
+    const currentPath = route.meta?.isIframe
+        ? (route.path ?? '')
+        : [parentPath, route.path].filter(Boolean).join('/').replace(/\/+/g, '/')
 
     return {
         id: route.id ?? Math.random(), // 使用空值合并运算符

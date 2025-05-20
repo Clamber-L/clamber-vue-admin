@@ -1,5 +1,5 @@
 <template>
-    <div class="top-bar" :class="[tabStyle]" :style="{ width: topBarWidth() }">
+    <div class="top-bar" :style="{ width: topBarWidth() }">
         <div class="menu">
             <div class="left" style="display: flex">
                 <svg class="svg-icon" aria-hidden="true" @click="toHome()">
@@ -83,15 +83,6 @@
                             <div class="btn setting-btn">
                                 <i class="iconfont-sys">&#xe6d0;</i>
                             </div>
-                        </template>
-                        <template #default>
-                            <p>
-                                点击这里查看<span :style="{ color: systemThemeColor }">
-                                    主题风格 </span
-                                >、
-                                <span :style="{ color: systemThemeColor }"> 开启顶栏菜单 </span
-                                >等更多配置
-                            </p>
                         </template>
                     </el-popover>
                 </div>
@@ -188,11 +179,9 @@ const {
     showRefreshButton,
     menuOpen,
     showCrumbs,
-    systemThemeColor,
     showSettingGuide,
     menuType,
-    isDark,
-    tabStyle
+    isDark
 } = storeToRefs(settingStore)
 
 const { getUserInfo: userInfo } = storeToRefs(userStore)
