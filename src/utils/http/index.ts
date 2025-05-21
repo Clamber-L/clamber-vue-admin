@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL, // API地址
     withCredentials: false, // 异步请求携带cookie
     transformRequest: [(data) => JSON.stringify(data)], // 请求数据转换为 JSON 字符串
-    validateStatus: (status) => status >= 200 && status < 300, // 只接受 2xx 的状态码
+    // validateStatus: (status) => status >= 200 && status < 300, // 只接受 2xx 的状态码
     headers: {
         get: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
         post: { 'Content-Type': 'application/json;charset=utf-8' }
@@ -56,6 +56,11 @@ axiosInstance.interceptors.response.use(
         console.log('response error', error)
         if (axios.isCancel(error)) {
             console.log(`repeated request: ${error.message}`)
+        } else if (error.response.status === 401 && !error.config.__isRetryRequest) {
+            // 设置标识，避免循环出现401错误
+            error.config.__isRetryRequest = true
+            // 执行重新身份验证的操作，例如跳转到登录页面
+            window.location.href = '/login'
         } else {
             const errorMessage = error.response?.data.message
             ElMessage.error(

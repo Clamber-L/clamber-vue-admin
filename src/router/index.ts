@@ -16,6 +16,10 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { useTheme } from '@/composables/useTheme'
 import { setWorkTab } from '@/utils/worktab'
+import { MenuListType } from '@/types/menu'
+import { processRoute } from '@/utils/menu.ts'
+import { ApiStatus } from '@/utils/http/status.ts'
+import { ElMessage } from 'element-plus'
 import { RoutesAlias } from './modules/routesAlias'
 import { registerAsyncRoutes } from './modules/dynamicRoutes'
 
@@ -191,13 +195,17 @@ router.beforeEach(async (to, _, next) => {
 async function getMenuData(): Promise<void> {
     try {
         // 获取菜单列表
-        const { menuList, closeLoading } = await menuService.getMenuList()
+        const menuListResponse = await menuService.getMenuList()
+        if (menuListResponse.code !== ApiStatus.success || menuListResponse.data.length === 0) {
+            await useUserStore().logOut()
+        }
+
+        const menuList: MenuListType[] = menuListResponse.data.map((route) => processRoute(route))
 
         // 如果菜单列表为空，执行登出操作并跳转到登录页
         if (!Array.isArray(menuList) || menuList.length === 0) {
-            closeLoading()
             await useUserStore().logOut()
-            throw new Error('获取菜单列表失败，请重新登录！')
+            ElMessage.error('获取菜单列表失败，请重新登录！')
         }
 
         // 设置菜单列表
@@ -206,8 +214,6 @@ async function getMenuData(): Promise<void> {
         registerAsyncRoutes(router, menuList)
         // 标记路由已注册
         isRouteRegistered.value = true
-        // 关闭加载动画
-        closeLoading()
     } catch (error) {
         console.error('获取菜单列表失败:', error)
         throw error

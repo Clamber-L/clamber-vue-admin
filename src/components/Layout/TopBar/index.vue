@@ -74,17 +74,9 @@
 
                 <!-- 设置 -->
                 <div class="btn-box" @click="openSetting">
-                    <el-popover
-                        :visible="showSettingGuide"
-                        placement="bottom-start"
-                        :width="190"
-                        :offset="0">
-                        <template #reference>
-                            <div class="btn setting-btn">
-                                <i class="iconfont-sys">&#xe6d0;</i>
-                            </div>
-                        </template>
-                    </el-popover>
+                    <div class="btn setting-btn">
+                        <i class="iconfont-sys">&#xe6d0;</i>
+                    </div>
                 </div>
                 <!-- 切换主题 -->
                 <div class="btn-box" @click="themeAnimation">
