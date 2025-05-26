@@ -196,6 +196,7 @@ async function getMenuData(): Promise<void> {
     try {
         // 获取菜单列表
         const menuListResponse = await menuService.getMenuList()
+        console.log('menuListResponse:', menuListResponse)
         if (menuListResponse.code !== ApiStatus.success || menuListResponse.data.length === 0) {
             await useUserStore().logOut()
         }

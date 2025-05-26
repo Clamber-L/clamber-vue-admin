@@ -146,21 +146,6 @@
                             @change="setMenuOpenSize" />
                     </div>
                     <div class="item" style="display: flex">
-                        <span>标签页风格</span>
-                        <el-select
-                            v-model="tabStyle"
-                            placeholder="Select"
-                            size="default"
-                            style="width: 120px"
-                            @change="setTabStyle">
-                            <el-option
-                                v-for="item in tabStyleOps"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value" />
-                        </el-select>
-                    </div>
-                    <div class="item" style="display: flex">
                         <span>页面切换动画</span>
                         <el-select
                             v-model="pageTransition"
@@ -216,7 +201,6 @@ const {
     menuThemeType,
     boxBorderMode,
     pageTransition,
-    tabStyle,
     customRadius,
     menuType,
     menuOpenWidth,
